@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android-BookManager</string>
+    <string name="account_setting">アカウント設定</string>
+    <string name="book_lineup">書籍一覧</string>
+    <string name="mail_address">メールアドレス</string>
+    <string name="password">パスワード</string>
+    <string name="password_confirm">パスワード確認</string>
+    <string name="login">ログイン</string>
+
+</resources>

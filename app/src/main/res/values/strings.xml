@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Android-BookManager</string>
+    <string name="account_setting">Account Setting</string>
+    <string name="book_lineup">Book Lineup</string>
+    <string name="mail_address">Mail Address</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Password(confirm)</string>
+    <string name="login">Login</string>
 </resources>
