@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Android-BookManager</string>
     <string name="setting">Setting</string>
+    <string name="load_more">*** Load More ***</string>
     <string name="account_setting">Account Setting</string>
     <string name="book_lineup">Book Lineup</string>
     <string name="mail_address">Mail Address</string>

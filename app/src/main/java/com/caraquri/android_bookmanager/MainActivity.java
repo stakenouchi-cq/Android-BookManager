@@ -23,8 +23,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d("AppLaunchChecker", "It's first launch");
             intent = new Intent(MainActivity.this, AccountSettingActivity.class);
         }
-        AppLaunchChecker.onActivityCreate(this);
 
+        AppLaunchChecker.onActivityCreate(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 

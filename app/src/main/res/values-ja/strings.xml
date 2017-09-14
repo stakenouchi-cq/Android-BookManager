@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Android-BookManager</string>
     <string name="setting">設定</string>
+    <string name="load_more">*** もっと読み込む ***</string>
     <string name="account_setting">アカウント設定</string>
     <string name="book_lineup">書籍一覧</string>
     <string name="mail_address">メールアドレス</string>

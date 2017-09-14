@@ -14,7 +14,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button loginButton = (Button) findViewById(R.id.login_button);
+        Button loginButton = (Button) findViewById(R.id.button_login);
 
         Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_login);
         toolbar.setTitle(R.string.book_lineup);
@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, TabActivity.class);
                 startActivity(intent);
+                LoginActivity.this.finish();
             }
         });
-
     }
 
 }
