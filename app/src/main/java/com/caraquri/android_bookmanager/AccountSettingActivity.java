@@ -12,9 +12,9 @@ public class AccountSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setting);
 
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_accountset);
-        toolBar.setTitle(R.string.account_setting);
-        setSupportActionBar(toolBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_accountset);
+        toolbar.setTitle(R.string.account_setting);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 戻るボタン(矢印)
         getSupportActionBar().setHomeButtonEnabled(true);
     }

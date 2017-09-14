@@ -16,14 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AccountSettingActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name">
-        </activity>
+        <activity android:name=".AccountSettingActivity"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".TabActivity"/>
+        <activity android:name=".SettingFragment" />
     </application>
 
 </manifest>
