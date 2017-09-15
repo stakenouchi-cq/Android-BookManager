@@ -1,13 +1,23 @@
 package com.caraquri.android_bookmanager;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,19 +25,22 @@ import java.util.ArrayList;
 public class BookListFragment extends Fragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_booklist, container, false);
+        setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_booklist, container, false);
         // ツールバーの定義
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_booklist);
-        toolbar.setTitle(R.string.book_lineup);
-        toolbar.inflateMenu(R.menu.menu_add);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.book_lineup);
+
+        // 左上部の戻るキーを非表示
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ArrayList<Book> bookList = new ArrayList<>();
         for (int i=0; i<20; i++) {
@@ -40,24 +53,43 @@ public class BookListFragment extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.listview_book);
 
-        // ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, books);
         BookAdapter adapter = new BookAdapter(getActivity());
         adapter.setBookList(bookList);
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
 
-        view.setFocusableInTouchMode(true);
-        view.setOnKeyListener(new View.OnKeyListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_BACK) {
-                    return true; // 戻るキーで終了しない
-                }
-                return false;
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                BookEditFragment fragment = new BookEditFragment();
+
+                // 画面呼び出し
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.container, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
-
-        return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.menu_add).setVisible(true);
+        menu.findItem(R.id.menu_save).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add:
+                Toast.makeText(getActivity(), "You'll go to BookAdd display.", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 }

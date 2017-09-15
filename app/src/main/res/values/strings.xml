@@ -8,4 +8,9 @@
     <string name="password">Password</string>
     <string name="password_confirm">Password(confirm)</string>
     <string name="login">Login</string>
+    <string name="add_tmb">Add tmb</string>
+    <string name="book_title">Book Title</string>
+    <string name="price">Price</string>
+    <string name="purchase_date">Purchase Date</string>
+    <string name="book_edit">Edit Book</string>
 </resources>

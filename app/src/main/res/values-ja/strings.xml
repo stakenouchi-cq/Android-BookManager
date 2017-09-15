@@ -9,5 +9,9 @@
     <string name="password">パスワード</string>
     <string name="password_confirm">パスワード確認</string>
     <string name="login">ログイン</string>
-
+    <string name="add_tmb">画像添付</string>
+    <string name="book_title">書籍名</string>
+    <string name="price">金額</string>
+    <string name="purchase_date">購入日</string>
+    <string name="book_edit">書籍編集</string>
 </resources>

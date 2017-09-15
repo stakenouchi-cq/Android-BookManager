@@ -15,10 +15,12 @@
         tools:layout_editor_absoluteX="8dp" />
 
     <RelativeLayout
+        android:paddingTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_accountset"
-        android:padding="25dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         android:orientation="vertical">
 
         <TextView

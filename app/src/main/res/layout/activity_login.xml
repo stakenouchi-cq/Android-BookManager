@@ -15,47 +15,57 @@
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="8dp" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_login"
-        android:padding="25dp"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/emailTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mail_address"/>
-
-        <EditText
-            android:id="@+id/emailEditText"
+        <RelativeLayout
+            android:paddingTop="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/emailTextView"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar_login"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/passwordTextView"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/emailEditText"
-            android:text="@string/password"/>
+            <TextView
+                android:paddingTop="50dp"
+                android:id="@+id/emailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mail_address"/>
 
-        <EditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/passwordTextView"/>
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emailTextView"/>
 
-        <Button
-            android:id="@+id/button_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/passwordEditText"
-            android:text="@string/login"/>
+            <TextView
+                android:id="@+id/passwordTextView"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emailEditText"
+                android:text="@string/password"/>
 
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passwordTextView"/>
+
+            <Button
+                android:id="@+id/button_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_below="@+id/passwordEditText"
+                android:text="@string/login"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
