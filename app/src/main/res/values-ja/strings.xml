@@ -14,4 +14,5 @@
     <string name="price">金額</string>
     <string name="purchase_date">購入日</string>
     <string name="book_edit">書籍編集</string>
+    <string name="book_add">書籍追加</string>
 </resources>

@@ -1,28 +1,26 @@
 package com.caraquri.android_bookmanager;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.AppLaunchChecker;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class AccountSettingActivity extends AppCompatActivity {
-
+public class BookAddActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_setting);
+        setContentView(R.layout.activity_book_add);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_accountset);
-        toolbar.setTitle(R.string.account_setting);
+        Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_bookadd);
+        toolbar.setTitle(R.string.book_add);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 戻るボタン(矢印)
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
     }
 
     @Override

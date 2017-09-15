@@ -13,4 +13,5 @@
     <string name="price">Price</string>
     <string name="purchase_date">Purchase Date</string>
     <string name="book_edit">Edit Book</string>
+    <string name="book_add">Add Book</string>
 </resources>
