@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- ToolBarのタイトルテキスト色 -->
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">#000000</item>
     </style>
 
 
