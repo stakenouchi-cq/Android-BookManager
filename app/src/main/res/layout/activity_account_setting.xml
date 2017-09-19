@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:id="@+id/toolbar_accountset"
+        android:id="@+id/accountSettingToolBar"
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="8dp" />
 
@@ -18,7 +18,7 @@
         android:paddingTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_accountset"
+        android:layout_below="@+id/accountSettingToolBar"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:orientation="vertical">
@@ -27,13 +27,14 @@
             android:id="@+id/emailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mail_address"/>
+            android:text="@string/emailAddress"/>
 
         <EditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailTextView"/>
+            android:layout_below="@+id/emailTextView"
+            android:inputType="textEmailAddress"/>
 
         <TextView
             android:id="@+id/passwordTextView"
@@ -47,7 +48,8 @@
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/passwordTextView"/>
+            android:layout_below="@+id/passwordTextView"
+            android:inputType="textPassword"/>
 
         <TextView
             android:id="@+id/passwordConfirmTextView"
@@ -55,13 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/passwordEditText"
-            android:text="@string/password_confirm"/>
+            android:text="@string/passwordConfirm"/>
 
         <EditText
             android:id="@+id/passwordConfirmEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/passwordConfirmTextView"/>
+            android:layout_below="@+id/passwordConfirmTextView"
+            android:inputType="textPassword"/>
 
     </RelativeLayout>
 

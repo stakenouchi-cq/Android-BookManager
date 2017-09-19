@@ -28,15 +28,13 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             LoginActivity.this.finish();
         }
-
         AppLaunchChecker.onActivityCreate(this);
 
         setContentView(R.layout.activity_login);
-
         Button loginButton = (Button) findViewById(R.id.button_login);
 
         Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_login);
-        toolbar.setTitle(R.string.book_lineup);
+        toolbar.setTitle(R.string.bookLineup);
         setSupportActionBar(toolbar);
 
         loginButton.setOnClickListener(new View.OnClickListener() {

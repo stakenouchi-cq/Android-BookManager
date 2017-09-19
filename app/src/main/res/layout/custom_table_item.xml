@@ -21,26 +21,26 @@
         android:paddingLeft="20dp"
         android:layout_weight="7">
         <TextView
-            android:id="@+id/book_title"
+            android:id="@+id/bookTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
         <TextView
-            android:id="@+id/book_price"
+            android:id="@+id/bookPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/book_title"
+            android:layout_alignLeft="@+id/bookTitle"
             android:layout_alignParentBottom="true" />
 
         <TextView
-            android:id="@+id/purchase_date"
+            android:id="@+id/purchaseDate"
             android:gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:paddingRight="20dp"
-            android:layout_alignTop="@+id/book_price"/>
+            android:layout_alignTop="@+id/bookPrice"/>
 
         <TextView
             android:id="@+id/text_sign"

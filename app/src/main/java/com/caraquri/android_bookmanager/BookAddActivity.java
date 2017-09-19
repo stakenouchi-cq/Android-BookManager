@@ -41,7 +41,7 @@ public class BookAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_add);
 
         Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_bookadd);
-        toolbar.setTitle(R.string.book_add);
+        toolbar.setTitle(R.string.addBook);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

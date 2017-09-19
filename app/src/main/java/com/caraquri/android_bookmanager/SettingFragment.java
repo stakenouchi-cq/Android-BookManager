@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class SettingFragment extends Fragment {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,7 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
-        Button goToSettingButton = (Button) view.findViewById(R.id.button_account_setting);
+        Button goToSettingButton = (Button) view.findViewById(R.id.button_accountSetting);
         goToSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

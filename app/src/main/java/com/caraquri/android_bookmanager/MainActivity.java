@@ -56,8 +56,4 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container, newFragment).commit();
     }
 
-    public void setActionBarTitle(String title) {
-        getActionBar().setTitle(title);
-    }
-
 }

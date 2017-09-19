@@ -34,13 +34,14 @@
                 android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mail_address"/>
+                android:text="@string/emailAddress"/>
 
             <EditText
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/emailTextView"/>
+                android:layout_below="@+id/emailTextView"
+                android:inputType="textEmailAddress"/>
 
             <TextView
                 android:id="@+id/passwordTextView"
@@ -54,7 +55,8 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/passwordTextView"/>
+                android:layout_below="@+id/passwordTextView"
+                android:inputType="textPassword"/>
 
             <Button
                 android:id="@+id/button_login"

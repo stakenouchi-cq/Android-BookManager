@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">Android-BookManager</string>
     <string name="setting">Setting</string>
-    <string name="load_more">*** Load More ***</string>
-    <string name="account_setting">Account Setting</string>
-    <string name="book_lineup">Book Lineup</string>
-    <string name="mail_address">Mail Address</string>
+    <string name="loadMore">*** Load More ***</string>
+    <string name="accountSetting">Account Setting</string>
+    <string name="bookLineup">Book Lineup</string>
+    <string name="emailAddress">Mail Address</string>
     <string name="password">Password</string>
-    <string name="password_confirm">Password(confirm)</string>
+    <string name="passwordConfirm">Password(confirm)</string>
     <string name="login">Login</string>
-    <string name="add_tmb">Add tmb</string>
-    <string name="book_title">Book Title</string>
+    <string name="addThumbnail">Add tmb</string>
+    <string name="bookTitle">Book Title</string>
     <string name="price">Price</string>
-    <string name="price_notation">¥%1$,3d</string>
-    <string name="purchase_date">Purchase Date</string>
-    <string name="book_edit">Edit Book</string>
-    <string name="book_add">Add Book</string>
+    <string name="priceNotation">¥%1$,3d</string>
+    <string name="purchaseDate">Purchase Date</string>
+    <string name="editBook">Edit Book</string>
+    <string name="addBook">Add Book</string>
 </resources>

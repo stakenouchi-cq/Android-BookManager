@@ -1,20 +1,12 @@
 package com.caraquri.android_bookmanager;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -60,15 +52,14 @@ public class BookAdapter extends BaseAdapter {
         }
 
         // テキストサイズの指定
-        ((TextView) view.findViewById(R.id.book_title)).setTextSize(30);
-        ((TextView) view.findViewById(R.id.book_price)).setTextSize(20);
-        ((TextView) view.findViewById(R.id.purchase_date)).setTextSize(20);
+        ((TextView) view.findViewById(R.id.bookTitle)).setTextSize(30);
+        ((TextView) view.findViewById(R.id.bookPrice)).setTextSize(20);
+        ((TextView) view.findViewById(R.id.purchaseDate)).setTextSize(20);
         ((TextView) view.findViewById(R.id.text_sign)).setTextSize(25);
         // TextViewへの入力内容
-        ((TextView) view.findViewById(R.id.book_title)).setText(bookList.get(i).getTitle());
-        priceNotation = context.getResources().getString(R.string.price_notation, bookList.get(i).getPrice());
-        ((TextView) view.findViewById(R.id.book_price)).setText(priceNotation);
-        ((TextView) view.findViewById(R.id.purchase_date)).setText(bookList.get(i).getPurchaseDate());
+        ((TextView) view.findViewById(R.id.bookTitle)).setText(bookList.get(i).getTitle());
+        ((TextView) view.findViewById(R.id.bookPrice)).setText(context.getResources().getString(R.string.priceNotation, bookList.get(i).getPrice()));
+        ((TextView) view.findViewById(R.id.purchaseDate)).setText(bookList.get(i).getPurchaseDate());
 
         // 書籍のサムネイルを表示
         ((ImageView) view.findViewById(R.id.bookTmb)).setImageBitmap(bookList.get(i).getImgBmp());

@@ -52,7 +52,7 @@ public class BookEditFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         // ツールバーの定義
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.book_edit);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.editBook);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 各テキストボックスにデフォルト値を設定

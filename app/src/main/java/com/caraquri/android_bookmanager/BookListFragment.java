@@ -3,49 +3,42 @@ package com.caraquri.android_bookmanager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 
 public class BookListFragment extends Fragment {
 
+    private ListView listView;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_booklist, container, false);
         setHasOptionsMenu(true);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // ツールバーの定義
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.book_lineup);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.bookLineup);
         // 左上部の戻るキーを非表示
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -70,7 +63,7 @@ public class BookListFragment extends Fragment {
             bookList.add(book);
         }
 
-        ListView listView = (ListView) view.findViewById(R.id.listview_book);
+        listView = (ListView) view.findViewById(R.id.listview_book);
 
         BookAdapter adapter = new BookAdapter(getActivity());
         adapter.setBookList(bookList);

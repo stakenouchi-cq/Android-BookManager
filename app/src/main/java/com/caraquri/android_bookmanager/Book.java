@@ -6,7 +6,6 @@ public class Book {
     long id;
 
     private String imgStr; // 画像をbase64で表現した時の文字列
-    private String imgURL; // 画像をURIで指定した時の場所
     private Bitmap imgBmp;
     private String title;
     private int price;
