@@ -12,6 +12,7 @@
     <string name="add_tmb">画像添付</string>
     <string name="book_title">書籍名</string>
     <string name="price">金額</string>
+    <string name="price_notation">%1$,3d円</string>
     <string name="purchase_date">購入日</string>
     <string name="book_edit">書籍編集</string>
     <string name="book_add">書籍追加</string>

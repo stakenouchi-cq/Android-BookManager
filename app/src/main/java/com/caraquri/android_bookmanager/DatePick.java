@@ -16,7 +16,7 @@ public class DatePick extends DialogFragment implements DatePickerDialog.OnDateS
         int month = calendar.get(java.util.Calendar.MONTH);
         int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),this, year, month, dayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, dayOfMonth);
 
         return datePickerDialog;
     }

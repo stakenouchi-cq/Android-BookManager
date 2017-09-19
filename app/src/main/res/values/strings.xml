@@ -11,6 +11,7 @@
     <string name="add_tmb">Add tmb</string>
     <string name="book_title">Book Title</string>
     <string name="price">Price</string>
+    <string name="price_notation">¥%1$,3d</string>
     <string name="purchase_date">Purchase Date</string>
     <string name="book_edit">Edit Book</string>
     <string name="book_add">Add Book</string>

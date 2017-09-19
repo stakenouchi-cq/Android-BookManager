@@ -4,8 +4,7 @@
     android:paddingTop="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.caraquri.android_bookmanager.TabActivity">
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/button_account_setting"
