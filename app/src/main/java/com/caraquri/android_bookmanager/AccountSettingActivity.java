@@ -25,7 +25,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 戻るボタン(矢印)
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        emailEditText = (EditText) findViewById(R.id.emailTextView);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         passwordConfirmEditText = (EditText) findViewById(R.id.passwordConfirmEditText);
 
