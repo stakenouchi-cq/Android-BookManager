@@ -8,14 +8,14 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/listview_book"
+        android:id="@+id/bookListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
     </ListView>
 
     <Button
-        android:id="@+id/button_load"
+        android:id="@+id/loadButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/loadMore"/>

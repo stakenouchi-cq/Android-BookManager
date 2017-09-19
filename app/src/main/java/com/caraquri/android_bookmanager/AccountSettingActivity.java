@@ -5,9 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class AccountSettingActivity extends AppCompatActivity {
+
+    EditText emailEditText;
+    EditText passwordEditText;
+    EditText passwordConfirmEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,11 @@ public class AccountSettingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 戻るボタン(矢印)
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        emailEditText = (EditText) findViewById(R.id.emailTextView);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        passwordConfirmEditText = (EditText) findViewById(R.id.passwordConfirmEditText);
+
     }
 
     @Override
@@ -36,7 +46,7 @@ public class AccountSettingActivity extends AppCompatActivity {
                 this.finish();
                 break;
             case R.id.menu_save:
-                Toast.makeText(this, "Save Succeeded!!.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

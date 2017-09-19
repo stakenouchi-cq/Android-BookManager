@@ -16,7 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -63,7 +66,7 @@ public class BookListFragment extends Fragment {
             bookList.add(book);
         }
 
-        listView = (ListView) view.findViewById(R.id.listview_book);
+        listView = (ListView) view.findViewById(R.id.bookListView);
 
         BookAdapter adapter = new BookAdapter(getActivity());
         adapter.setBookList(bookList);
@@ -91,6 +94,15 @@ public class BookListFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        Button loadMoreButton = (Button) getActivity().findViewById(R.id.loadButton);
+        loadMoreButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "More books will be loaded.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override

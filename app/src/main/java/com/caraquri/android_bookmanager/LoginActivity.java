@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
     Intent intent;
+    EditText emailEditText;
+    EditText passwordEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +34,9 @@ public class LoginActivity extends AppCompatActivity {
         AppLaunchChecker.onActivityCreate(this);
 
         setContentView(R.layout.activity_login);
+
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         Button loginButton = (Button) findViewById(R.id.button_login);
 
         Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_login);
