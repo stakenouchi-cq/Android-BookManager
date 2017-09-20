@@ -42,7 +42,7 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // ツールバーの定義
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.bookLineup);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.book_lineup);
         // 左上部の戻るキーを非表示
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -67,7 +67,7 @@ public class BookListFragment extends Fragment {
             bookList.add(book);
         }
 
-        listView = (ListView) view.findViewById(R.id.bookListView);
+        listView = (ListView) view.findViewById(R.id.book_list_view);
 
         BookAdapter adapter = new BookAdapter(getActivity());
         adapter.setBookList(bookList);
@@ -96,7 +96,7 @@ public class BookListFragment extends Fragment {
             }
         });
 
-        Button loadMoreButton = (Button) getActivity().findViewById(R.id.loadButton);
+        Button loadMoreButton = (Button) getActivity().findViewById(R.id.load_button);
         loadMoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

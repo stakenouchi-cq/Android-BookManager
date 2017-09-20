@@ -22,15 +22,15 @@ public class AccountSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setting);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.accountSettingToolBar);
-        toolbar.setTitle(R.string.accountSetting);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.account_setting_toolbar);
+        toolbar.setTitle(R.string.account_setting);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 戻るボタン(矢印)
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        passwordConfirmEditText = (EditText) findViewById(R.id.passwordConfirmEditText);
+        emailEditText = (EditText) findViewById(R.id.email_edit_text);
+        passwordEditText = (EditText) findViewById(R.id.password_edit_text);
+        passwordConfirmEditText = (EditText) findViewById(R.id.password_confirm_edit_text);
 
     }
 

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/item_booklist"
         android:icon="@android:drawable/ic_menu_gallery"
-        android:title="@string/bookLineup"
+        android:title="@string/book_lineup"
         android:enabled="true"
         app:showAsAction="ifRoom"/>
 

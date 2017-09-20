@@ -52,13 +52,13 @@ public class BookEditFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         // ツールバーの定義
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.editBook);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.book_edit);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bookTmb = (ImageView) view.findViewById(R.id.bookTmb);
-        titleEditText = (EditText) view.findViewById(R.id.titleTextEdit);
-        priceEditText = (EditText) view.findViewById(R.id.priceTextEdit);
-        purchaseDateEditText = (EditText) view.findViewById(R.id.purchaseDateTextEdit);
+        bookTmb = (ImageView) view.findViewById(R.id.book_thumbnail);
+        titleEditText = (EditText) view.findViewById(R.id.title_edit_text);
+        priceEditText = (EditText) view.findViewById(R.id.price_edit_text);
+        purchaseDateEditText = (EditText) view.findViewById(R.id.purchase_date_edit_text);
 
         // 各テキストボックスにデフォルト値を設定
         Bundle args = getArguments();
@@ -73,7 +73,7 @@ public class BookEditFragment extends Fragment {
         purchaseDateEditText.setText(purchaseDate);
         bookTmb.setImageBitmap(ImageUtil.decodeToBase64(imgStr));
 
-        Button addTmbButton = (Button) view.findViewById(R.id.button_addtmb);
+        Button addTmbButton = (Button) view.findViewById(R.id.button_add_thumbnail);
         addTmbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

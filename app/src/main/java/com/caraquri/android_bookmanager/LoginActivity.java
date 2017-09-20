@@ -34,12 +34,12 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        Button loginButton = (Button) findViewById(R.id.button_login);
+        emailEditText = (EditText) findViewById(R.id.email_edit_text);
+        passwordEditText = (EditText) findViewById(R.id.password_edit_text);
+        Button loginButton = (Button) findViewById(R.id.login_button);
 
-        Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_login);
-        toolbar.setTitle(R.string.bookLineup);
+        Toolbar toolbar = (Toolbar) findViewById (R.id.login_toolbar);
+        toolbar.setTitle(R.string.book_lineup);
         setSupportActionBar(toolbar);
 
         loginButton.setOnClickListener(new View.OnClickListener() {

@@ -44,7 +44,6 @@ public class BookAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup parent) {
 
         View view = null;
-        String priceNotation;
 
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.custom_table_item, parent, false);
@@ -53,17 +52,17 @@ public class BookAdapter extends BaseAdapter {
         }
 
         // テキストサイズの指定
-        ((TextView) view.findViewById(R.id.bookTitle)).setTextSize(30);
-        ((TextView) view.findViewById(R.id.bookPrice)).setTextSize(20);
-        ((TextView) view.findViewById(R.id.purchaseDate)).setTextSize(20);
+        ((TextView) view.findViewById(R.id.book_title)).setTextSize(30);
+        ((TextView) view.findViewById(R.id.book_price)).setTextSize(20);
+        ((TextView) view.findViewById(R.id.book_purchase_date)).setTextSize(20);
         ((TextView) view.findViewById(R.id.text_sign)).setTextSize(25);
         // TextViewへの入力内容
-        ((TextView) view.findViewById(R.id.bookTitle)).setText(bookList.get(i).getTitle());
-        ((TextView) view.findViewById(R.id.bookPrice)).setText(context.getResources().getString(R.string.priceNotation, bookList.get(i).getPrice()));
-        ((TextView) view.findViewById(R.id.purchaseDate)).setText(bookList.get(i).getPurchaseDate());
+        ((TextView) view.findViewById(R.id.book_title)).setText(bookList.get(i).getTitle());
+        ((TextView) view.findViewById(R.id.book_price)).setText(context.getResources().getString(R.string.price_notation, bookList.get(i).getPrice()));
+        ((TextView) view.findViewById(R.id.book_purchase_date)).setText(bookList.get(i).getPurchaseDate());
 
         // 書籍のサムネイルを表示
-        ((ImageView) view.findViewById(R.id.bookTmb)).setImageBitmap(bookList.get(i).getImgBmp());
+        ((ImageView) view.findViewById(R.id.book_thumbnail)).setImageBitmap(bookList.get(i).getImgBmp());
 
         return view;
     }

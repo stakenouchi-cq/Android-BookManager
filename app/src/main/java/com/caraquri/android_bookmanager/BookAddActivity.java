@@ -40,20 +40,20 @@ public class BookAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_add);
 
-        Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar_bookadd);
-        toolbar.setTitle(R.string.addBook);
+        Toolbar toolbar = (Toolbar) findViewById (R.id.book_add_toolbar);
+        toolbar.setTitle(R.string.book_add);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        titleEditText = (EditText) findViewById(R.id.titleTextEdit);
-        priceEditText = (EditText) findViewById(R.id.priceTextEdit);
-        purchaseDateEditText = (EditText) findViewById(R.id.purchaseDateTextEdit);
+        titleEditText = (EditText) findViewById(R.id.title_edit_text);
+        priceEditText = (EditText) findViewById(R.id.price_edit_text);
+        purchaseDateEditText = (EditText) findViewById(R.id.purchase_date_edit_text);
 
-        bookTmb = (ImageView) findViewById(R.id.bookTmb);
+        bookTmb = (ImageView) findViewById(R.id.book_thumbnail);
         bookTmb.setImageBitmap(getBmpFromAssets("no_image.png"));
 
-        Button addTmbButton = (Button) findViewById(R.id.button_addtmb);
+        Button addTmbButton = (Button) findViewById(R.id.button_add_thumbnail);
         addTmbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

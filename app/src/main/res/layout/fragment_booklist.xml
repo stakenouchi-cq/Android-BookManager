@@ -7,16 +7,16 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/bookListView"
+        android:id="@+id/book_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
     </ListView>
 
     <Button
-        android:id="@+id/loadButton"
+        android:id="@+id/load_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/loadMore"/>
+        android:text="@string/load_more"/>
 
 </LinearLayout>

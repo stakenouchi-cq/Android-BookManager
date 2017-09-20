@@ -6,12 +6,13 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.DatePicker;
+import java.util.Calendar;
 
 public class DatePick extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(java.util.Calendar.YEAR);
         int month = calendar.get(java.util.Calendar.MONTH);
         int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
