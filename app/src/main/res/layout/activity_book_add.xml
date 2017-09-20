@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_book_edit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:id="@+id/toolbar_bookadd"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:id="@+id/toolbar_bookadd" />
 
     <ScrollView
         android:paddingTop="?attr/actionBarSize"
@@ -24,8 +21,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,9 +38,9 @@
                     <ImageView
                         android:id="@+id/bookTmb"
                         android:scaleType="centerCrop"
-                        android:layout_marginRight="40dp"
+                        android:layout_marginRight="@dimen/margin_image_right"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="@dimen/book_thumbnail_height"
                         android:layout_weight="2" />
                     <Button
                         android:id="@+id/button_addtmb"
@@ -54,7 +51,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:paddingTop="50dp"
+                    android:paddingTop="@dimen/margin_between_TmbAndElements"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookTitle"/>
@@ -64,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"/>
                 <TextView
-                    android:paddingTop="20dp"
+                    android:paddingTop="@dimen/margin_between_LabAndForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/price"/>
@@ -72,9 +69,9 @@
                     android:id="@+id/priceTextEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="number"/>
                 <TextView
-                    android:paddingTop="20dp"
+                    android:paddingTop="@dimen/margin_between_LabAndForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/purchaseDate"/>

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookListFragment extends Fragment {
@@ -54,10 +55,10 @@ public class BookListFragment extends Fragment {
                 "toeicbook.png"
         };
 
-        final ArrayList<Book> bookList = new ArrayList<>();
+        final List<Book> bookList = new ArrayList<>();
         for (int i=0; i<6; i++) {
             Book book = new Book();
-            Bitmap imgBmp = convertBmpFromAssets(imgPaths[i]);
+            Bitmap imgBmp = getBmpFromAssets(imgPaths[i]);
             book.setImgBmp(imgBmp);
             book.setImgStr(ImageUtil.encodeToBase64(imgBmp));
             book.setTitle("hoge"+i);
@@ -126,7 +127,7 @@ public class BookListFragment extends Fragment {
         return true;
     }
 
-    private Bitmap convertBmpFromAssets(String imgPath) {
+    private Bitmap getBmpFromAssets(String imgPath) {
         try {
             InputStream inputStream = getResources().getAssets().open(imgPath);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);

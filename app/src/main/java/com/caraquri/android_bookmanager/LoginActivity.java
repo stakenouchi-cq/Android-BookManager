@@ -7,16 +7,15 @@ import android.support.v4.app.AppLaunchChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Intent intent;
-    EditText emailEditText;
-    EditText passwordEditText;
+    private Intent intent;
+    private EditText emailEditText;
+    private EditText passwordEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

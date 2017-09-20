@@ -8,19 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookAdapter extends BaseAdapter {
-    Context context;
-    LayoutInflater layoutInflater = null;
-    ArrayList<Book> bookList;
+    private Context context;
+    private LayoutInflater layoutInflater = null;
+    private List<Book> bookList;
 
     public BookAdapter(Context context) {
         this.context = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setBookList(ArrayList<Book> bookList) {
+    public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
     }
 

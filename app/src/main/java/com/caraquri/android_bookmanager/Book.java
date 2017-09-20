@@ -6,10 +6,10 @@ public class Book {
     long id;
 
     private String imgStr; // 画像をbase64で表現した時の文字列
-    private Bitmap imgBmp;
-    private String title;
-    private int price;
-    private String purchaseDate;
+    private Bitmap imgBmp; // 画像に対するbitmap
+    private String title; // 書籍名
+    private int price; // 価格
+    private String purchaseDate; // 購入日
 
     public long getId() {
         return id;

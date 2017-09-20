@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ログイン画面等でのアクティビティでのmargin -->
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">24dp</dimen>
+
+    <!-- ラベルと入力欄とのmargin -->
+    <dimen name="margin_between_LabAndForm">24dp</dimen>
+    <!-- ツールバーとの間にとるmargin -->
+    <dimen name="margin_between_ToolbarAndElements">48dp</dimen>
+    <!-- 画面とボタンの間にとるmargin -->
+    <dimen name="margin_between_ButtonAndElements">48dp</dimen>
+
+    <!-- 書籍編集・追加画面におけるサムネイルのサイズ情報 -->
+    <dimen name="book_thumbnail_height">96dp</dimen>
+    <!-- 書籍編集・追加画面における各要素間のmargin -->
+    <dimen name="margin_image_right">36dp</dimen>
+    <dimen name="margin_between_TmbAndElements">48dp</dimen>
+
+    <!-- カスタムセル内でのサイズやmargin情報 -->
+    <dimen name="cell_height">96dp</dimen>
+    <dimen name="cell_horizontal_margin">12dp</dimen>
+    <dimen name="margin_between_TmbAndBooktitle">16dp</dimen>
+    <dimen name="margin_between_PdateAndRight">16dp</dimen>
+
+</resources>

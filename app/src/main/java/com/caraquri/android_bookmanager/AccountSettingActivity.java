@@ -1,6 +1,8 @@
 package com.caraquri.android_bookmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,12 +12,13 @@ import android.widget.Toast;
 
 public class AccountSettingActivity extends AppCompatActivity {
 
-    EditText emailEditText;
-    EditText passwordEditText;
-    EditText passwordConfirmEditText;
+    private Intent intent;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText passwordConfirmEditText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setting);
 
@@ -43,10 +46,13 @@ public class AccountSettingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                AccountSettingActivity.this.finish();
                 break;
             case R.id.menu_save:
                 Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
+                intent = new Intent(AccountSettingActivity.this, MainActivity.class);
+                startActivity(intent);
+                AccountSettingActivity.this.finish();
                 break;
             default:
                 break;

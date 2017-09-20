@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +30,9 @@ import java.util.Calendar;
 public class BookAddActivity extends AppCompatActivity {
 
     private static final int RESULT_PICK_IMAGEFILE = 1001;
-    private EditText purchaseDate;
+    private EditText titleEditText;
+    private EditText priceEditText;
+    private EditText purchaseDateEditText;
     private ImageView bookTmb;
 
     @Override
@@ -46,8 +46,12 @@ public class BookAddActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        titleEditText = (EditText) findViewById(R.id.titleTextEdit);
+        priceEditText = (EditText) findViewById(R.id.priceTextEdit);
+        purchaseDateEditText = (EditText) findViewById(R.id.purchaseDateTextEdit);
+
         bookTmb = (ImageView) findViewById(R.id.bookTmb);
-        bookTmb.setImageBitmap(convertBmpFromAssets("no_image.png"));
+        bookTmb.setImageBitmap(getBmpFromAssets("no_image.png"));
 
         Button addTmbButton = (Button) findViewById(R.id.button_addtmb);
         addTmbButton.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +64,7 @@ public class BookAddActivity extends AppCompatActivity {
             }
         });
 
-        purchaseDate = (EditText) findViewById(R.id.purchaseDateTextEdit);
-        purchaseDate.setOnClickListener(new View.OnClickListener(){
+        purchaseDateEditText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 final Calendar date = Calendar.getInstance();
@@ -70,8 +73,8 @@ public class BookAddActivity extends AppCompatActivity {
                         android.R.style.Theme_Holo_Dialog,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                                purchaseDate.setText(String.format("%d / %02d / %02d", i, i1+1, i2));
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                purchaseDateEditText.setText(String.format("%d/%02d/%02d", year, month+1, day));
                             }
                         },
                         date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE)
@@ -127,7 +130,12 @@ public class BookAddActivity extends AppCompatActivity {
                 this.finish();
                 break;
             case R.id.menu_save:
-                Toast.makeText(this, "Save Succeeded!!.", Toast.LENGTH_SHORT).show();
+                Log.d("Data of the book", "Title: " + titleEditText.getText() + " Price: "+ priceEditText.getText() + " PurchaseDate: " + purchaseDateEditText.getText());
+                // 全入力欄が空欄でないかつ金額が数字になっていれば保存
+                if (CheckUtil.isNull(titleEditText) || !CheckUtil.isNumber(priceEditText) || CheckUtil.isNull(purchaseDateEditText)) {
+                    return false;
+                }
+                Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -135,7 +143,7 @@ public class BookAddActivity extends AppCompatActivity {
         return true;
     }
 
-    private Bitmap convertBmpFromAssets(String imgPath) {
+    private Bitmap getBmpFromAssets(String imgPath) {
         try {
             InputStream inputStream = getResources().getAssets().open(imgPath);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);

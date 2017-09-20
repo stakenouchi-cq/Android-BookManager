@@ -33,10 +33,10 @@ import java.util.Calendar;
 public class BookEditFragment extends Fragment {
 
     private static final int RESULT_PICK_IMAGEFILE = 1001;
-    ImageView bookTmb;
-    EditText titleEditText;
-    EditText priceEditText;
-    EditText purchaseDateEditText;
+    private ImageView bookTmb;
+    private EditText titleEditText;
+    private EditText priceEditText;
+    private EditText purchaseDateEditText;
 
     public BookEditFragment() {
     }
@@ -55,17 +55,17 @@ public class BookEditFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.editBook);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        bookTmb = (ImageView) view.findViewById(R.id.bookTmb);
+        titleEditText = (EditText) view.findViewById(R.id.titleTextEdit);
+        priceEditText = (EditText) view.findViewById(R.id.priceTextEdit);
+        purchaseDateEditText = (EditText) view.findViewById(R.id.purchaseDateTextEdit);
+
         // 各テキストボックスにデフォルト値を設定
         Bundle args = getArguments();
         String imgStr = args.getString("imgStr");
         String title = args.getString("title");
         int price = args.getInt("price");
         String purchaseDate = args.getString("purchaseDate");
-
-        bookTmb = (ImageView) view.findViewById(R.id.bookTmb);
-        titleEditText = (EditText) view.findViewById(R.id.titleTextEdit);
-        priceEditText = (EditText) view.findViewById(R.id.priceTextEdit);
-        purchaseDateEditText = (EditText) view.findViewById(R.id.purchaseDateTextEdit);
 
         // 画面遷移直後の初期値を設定
         titleEditText.setText(title);
@@ -93,8 +93,8 @@ public class BookEditFragment extends Fragment {
                         android.R.style.Theme_Holo_Dialog,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                                purchaseDateEditText.setText(String.format("%d / %02d / %02d", i, i1+1, i2));
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                purchaseDateEditText.setText(String.format("%d/%02d/%02d", year, month+1, day));
                             }
                         },
                         date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE)
@@ -150,7 +150,12 @@ public class BookEditFragment extends Fragment {
                 getFragmentManager().popBackStack();
                 break;
             case R.id.menu_save:
-                Toast.makeText(getActivity(), "Save Succeeded!!.", Toast.LENGTH_SHORT).show();
+                Log.d("Data of the book", "Title: " + titleEditText.getText() + " Price: "+ priceEditText.getText() + " PurchaseDate: " + purchaseDateEditText.getText());
+                // 全入力欄が空欄でないかつ金額が数字になっていれば保存
+                if (CheckUtil.isNull(titleEditText) || !CheckUtil.isNumber(priceEditText) || CheckUtil.isNull(purchaseDateEditText)) {
+                    return false;
+                }
+                Toast.makeText(getActivity(), "Save Succeeded!!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
