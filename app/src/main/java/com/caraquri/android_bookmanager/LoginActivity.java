@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Intent intent;
     private EditText emailEditText;
     private EditText passwordEditText;
 
@@ -26,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("AppLaunchChecker", "It's not first launch");
         } else {
             Log.d("AppLaunchChecker", "It's first launch");
-            intent = new Intent(LoginActivity.this, AccountSettingActivity.class);
+            Intent intent = new Intent(LoginActivity.this, AccountSettingActivity.class);
             startActivity(intent);
             LoginActivity.this.finish();
         }

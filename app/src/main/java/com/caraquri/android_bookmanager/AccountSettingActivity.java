@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 public class AccountSettingActivity extends AppCompatActivity {
 
-    private Intent intent;
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText passwordConfirmEditText;
@@ -50,7 +49,7 @@ public class AccountSettingActivity extends AppCompatActivity {
                 break;
             case R.id.menu_save:
                 Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
-                intent = new Intent(AccountSettingActivity.this, MainActivity.class);
+                Intent intent = new Intent(AccountSettingActivity.this, MainActivity.class);
                 startActivity(intent);
                 AccountSettingActivity.this.finish();
                 break;

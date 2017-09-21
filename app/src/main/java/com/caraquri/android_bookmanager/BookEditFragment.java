@@ -12,6 +12,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -84,22 +85,18 @@ public class BookEditFragment extends Fragment {
             }
         });
 
-        purchaseDateEditText.setOnClickListener(new View.OnClickListener(){
+        purchaseDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Calendar date = Calendar.getInstance();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        getContext(),
-                        android.R.style.Theme_Holo_Dialog,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                purchaseDateEditText.setText(String.format("%d/%02d/%02d", year, month+1, day));
-                            }
-                        },
-                        date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE)
-                );
-                datePickerDialog.show(); // show Dialog
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+                        purchaseDateEditText.setText(String.format("%d/%02d/%02d", selectedYear, selectedMonth+1, selectedDay));
+                    }
+                }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
 
@@ -152,7 +149,7 @@ public class BookEditFragment extends Fragment {
             case R.id.menu_save:
                 Log.d("Data of the book", "Title: " + titleEditText.getText() + " Price: "+ priceEditText.getText() + " PurchaseDate: " + purchaseDateEditText.getText());
                 // 全入力欄が空欄でないかつ金額が数字になっていれば保存
-                if (CheckUtil.isNull(titleEditText) || !CheckUtil.isNumber(priceEditText) || CheckUtil.isNull(purchaseDateEditText)) {
+                if (TextUtils.isEmpty(titleEditText.getText()) || !CheckUtil.isNumber(priceEditText) || TextUtils.isEmpty(purchaseDateEditText.getText())) {
                     return false;
                 }
                 Toast.makeText(getActivity(), "Save Succeeded!!", Toast.LENGTH_SHORT).show();
