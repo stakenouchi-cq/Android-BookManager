@@ -14,8 +14,4 @@ public class CheckUtil {
         }
     }
 
-    public static boolean isNull(EditText editText) {
-        return editText.getText().toString().equals("");
-    }
-
 }
