@@ -88,15 +88,8 @@ public class BookEditFragment extends Fragment {
         purchaseDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Calendar date = Calendar.getInstance();
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
-                        purchaseDateEditText.setText(String.format("%d/%02d/%02d", selectedYear, selectedMonth+1, selectedDay));
-                    }
-                }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
+                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
+                datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
 
