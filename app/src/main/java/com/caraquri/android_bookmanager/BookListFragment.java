@@ -81,19 +81,16 @@ public class BookListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 BookEditFragment fragment = new BookEditFragment();
 
-                // 書籍編集画面遷移用の値渡し
                 Book selectedBook = bookList.get(i);
-                Bundle args = new Bundle();
-                args.putString(BundleKey.BUNDLE_KEY_IMAGESTRING.getString(), String.valueOf(selectedBook.getImgStr()));
-                args.putString(BundleKey.BUNDLE_KEY_TITLE.getString(), String.valueOf(selectedBook.getTitle()));
-                args.putInt(BundleKey.BUNDLE_KEY_PRICE.getString(), selectedBook.getPrice());
-                args.putString(BundleKey.BUNDLE_KEY_PURCHASEDATE.getString(), String.valueOf(selectedBook.getPurchaseDate()));
-                fragment.setArguments(args);
+                String imageString = selectedBook.getImgStr();
+                String title = selectedBook.getTitle();
+                int price = selectedBook.getPrice();
+                String purchaseDate = selectedBook.getPurchaseDate();
 
                 // 画面呼び出し
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.container, fragment);
+                transaction.replace(R.id.container, fragment.newInstance(imageString, title, price, purchaseDate));
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

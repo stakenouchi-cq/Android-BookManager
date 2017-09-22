@@ -33,12 +33,25 @@ import java.io.IOException;
 public class BookEditFragment extends Fragment implements OnDateSetListener {
 
     private static final int RESULT_PICK_IMAGEFILE = 1001;
+    private final static String ARGS_IMAGESTRING = "args_imageString";
+    private final static String ARGS_TITLE = "args_title";
+    private final static String ARGS_PRICE = "args_price";
+    private final static String ARGS_PURCHASEDATE = "args_purchaseDate";
+
     private ImageView bookTmb;
     private EditText titleEditText;
     private EditText priceEditText;
     private EditText purchaseDateEditText;
 
-    public BookEditFragment() {
+    public static BookEditFragment newInstance(String imageString, String title, int price, String purchaseDate) {
+        BookEditFragment fragment = new BookEditFragment();
+        Bundle args = new Bundle();
+        args.putString(ARGS_IMAGESTRING, imageString);
+        args.putString(ARGS_TITLE, title);
+        args.putInt(ARGS_PRICE, price);
+        args.putString(ARGS_PURCHASEDATE, purchaseDate);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -63,12 +76,11 @@ public class BookEditFragment extends Fragment implements OnDateSetListener {
         priceEditText = (EditText) view.findViewById(R.id.price_edit_text);
         purchaseDateEditText = (EditText) view.findViewById(R.id.purchase_date_edit_text);
 
-        // 各テキストボックスにデフォルト値を設定
         Bundle args = getArguments();
-        String imgStr = args.getString(BundleKey.BUNDLE_KEY_IMAGESTRING.getString());
-        String title = args.getString(BundleKey.BUNDLE_KEY_TITLE.getString());
-        int price = args.getInt(BundleKey.BUNDLE_KEY_PRICE.getString());
-        String purchaseDate = args.getString(BundleKey.BUNDLE_KEY_PURCHASEDATE.getString());
+        String imgStr = args.getString(ARGS_IMAGESTRING);
+        String title = args.getString(ARGS_TITLE);
+        int price = args.getInt(ARGS_PRICE);
+        String purchaseDate = args.getString(ARGS_PURCHASEDATE);
 
         // 画面遷移直後の初期値を設定
         titleEditText.setText(title);
