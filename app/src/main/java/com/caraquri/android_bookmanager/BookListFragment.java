@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,9 +43,10 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // ツールバーの定義
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.book_lineup);
-        // 左上部の戻るキーを非表示
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        Toolbar toolbar = (Toolbar) ((AppCompatActivity) getActivity()).findViewById(R.id.main_toolbar);
+        toolbar.setNavigationIcon(null); // 戻るキーは非表示
+        toolbar.setTitle(R.string.book_lineup);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         String imgPaths[] = {
                 "cppbook.png",
@@ -109,9 +111,7 @@ public class BookListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-        menu.findItem(R.id.menu_add).setVisible(true);
-        menu.findItem(R.id.menu_save).setVisible(false);
+        inflater.inflate(R.menu.menu_book_lineup, menu);
     }
 
     @Override
@@ -120,11 +120,10 @@ public class BookListFragment extends Fragment {
             case R.id.menu_add:
                 Intent intent = new Intent(getActivity(), BookAddActivity.class);
                 startActivity(intent);
-                break;
+                return true;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     private Bitmap getBmpFromAssets(String imgPath) {

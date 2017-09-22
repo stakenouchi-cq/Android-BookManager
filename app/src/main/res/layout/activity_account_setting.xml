@@ -8,7 +8,8 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:id="@+id/account_setting_toolbar" />
+        android:id="@+id/account_setting_toolbar"
+        android:navigationIcon="?android:homeAsUpIndicator"/>
 
     <RelativeLayout
         android:paddingTop="?attr/actionBarSize"

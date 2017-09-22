@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!-- ToolBarのタイトルテキスト色 -->
         <item name="android:textColorPrimary">#000000</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_menu_back</item>
     </style>
 
 </resources>

@@ -1,7 +1,6 @@
 package com.caraquri.android_bookmanager;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,9 +25,8 @@ import android.widget.Toast;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
 
-public class BookAddActivity extends AppCompatActivity {
+public class BookAddActivity extends AppCompatActivity implements OnDateSetListener {
 
     private static final int RESULT_PICK_IMAGEFILE = 1001;
     private EditText titleEditText;
@@ -41,15 +39,14 @@ public class BookAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_add);
 
+        // ツールバーの設定
         Toolbar toolbar = (Toolbar) findViewById (R.id.book_add_toolbar);
         toolbar.setTitle(R.string.book_add);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_back); // 戻るキーを表示
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         titleEditText = (EditText) findViewById(R.id.title_edit_text);
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
-        purchaseDateEditText = (EditText) findViewById(R.id.purchase_date_edit_text);
 
         bookTmb = (ImageView) findViewById(R.id.book_thumbnail);
         bookTmb.setImageBitmap(getBmpFromAssets("no_image.png"));
@@ -65,11 +62,13 @@ public class BookAddActivity extends AppCompatActivity {
             }
         });
 
+        purchaseDateEditText = (EditText) findViewById(R.id.purchase_date_edit_text);
         purchaseDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
-                datePickerDialogFragment.show(getSupportFragmentManager(), "datePicker");
+                datePickerDialogFragment.setOnDatePickerDialogListner(BookAddActivity.this);
+                datePickerDialogFragment.show(getSupportFragmentManager().beginTransaction(), "datePicker");
             }
         });
 
@@ -85,6 +84,11 @@ public class BookAddActivity extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
         return image;
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        purchaseDateEditText.setText(String.format("%d/%02d/%02d", year, month+1, day));
     }
 
     @Override
@@ -107,9 +111,7 @@ public class BookAddActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        menu.findItem(R.id.menu_add).setVisible(false);
-        menu.findItem(R.id.menu_save).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_book_add, menu);
         return true;
     }
 
@@ -118,7 +120,7 @@ public class BookAddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
-                break;
+                return true;
             case R.id.menu_save:
                 Log.d("Data of the book", "Title: " + titleEditText.getText() + " Price: "+ priceEditText.getText() + " PurchaseDate: " + purchaseDateEditText.getText());
                 // 全入力欄が空欄でないかつ金額が数字になっていれば保存
@@ -126,11 +128,10 @@ public class BookAddActivity extends AppCompatActivity {
                     return false;
                 }
                 Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
-                break;
+                return true;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     private Bitmap getBmpFromAssets(String imgPath) {

@@ -23,9 +23,8 @@ public class AccountSettingActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.account_setting_toolbar);
         toolbar.setTitle(R.string.account_setting);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_back);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 戻るボタン(矢印)
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         emailEditText = (EditText) findViewById(R.id.email_edit_text);
         passwordEditText = (EditText) findViewById(R.id.password_edit_text);
@@ -35,9 +34,7 @@ public class AccountSettingActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        menu.findItem(R.id.menu_add).setVisible(false);
-        menu.findItem(R.id.menu_save).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_account_setting, menu);
         return true;
     }
 
@@ -46,17 +43,16 @@ public class AccountSettingActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 AccountSettingActivity.this.finish();
-                break;
+                return true;
             case R.id.menu_save:
                 Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AccountSettingActivity.this, MainActivity.class);
                 startActivity(intent);
                 AccountSettingActivity.this.finish();
-                break;
+                return true;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
 }

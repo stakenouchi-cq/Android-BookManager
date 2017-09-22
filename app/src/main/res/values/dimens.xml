@@ -23,4 +23,10 @@
     <dimen name="margin_between_TmbAndBooktitle">16dp</dimen>
     <dimen name="margin_between_PdateAndRight">16dp</dimen>
 
+    <!-- カスタムセルで用いるテキストサイズ -->
+    <dimen name="text_size_micro">16sp</dimen>
+    <dimen name="text_size_small">20sp</dimen>
+    <dimen name="text_size_medium">28sp</dimen>
+    <dimen name="text_size_large">32sp</dimen>
+
 </resources>

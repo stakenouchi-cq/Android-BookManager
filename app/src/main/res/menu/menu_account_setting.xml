@@ -9,10 +9,4 @@
         android:title="test"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/menu_add"
-        android:icon="@android:drawable/ic_input_add"
-        android:title="test"
-        app:showAsAction="ifRoom" />
-
 </menu>

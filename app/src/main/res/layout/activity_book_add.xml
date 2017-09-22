@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:id="@+id/book_add_toolbar" />
+        android:id="@+id/book_add_toolbar"
+        android:navigationIcon="?android:homeAsUpIndicator"/>
 
     <ScrollView
         android:paddingTop="?attr/actionBarSize"

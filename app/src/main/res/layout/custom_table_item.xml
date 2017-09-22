@@ -23,12 +23,14 @@
         android:layout_weight="7">
         <TextView
             android:id="@+id/book_title"
+            android:textSize="@dimen/text_size_large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/book_price"
+            android:textSize="@dimen/text_size_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/book_title"
@@ -36,6 +38,7 @@
 
         <TextView
             android:id="@+id/book_purchase_date"
+            android:textSize="@dimen/text_size_small"
             android:gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,6 +48,7 @@
 
         <TextView
             android:id="@+id/text_sign"
+            android:textSize="@dimen/text_size_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

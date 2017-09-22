@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,6 +43,7 @@ public class BookAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup parent) {
 
         View view = null;
+        Book book = bookList.get(i); // 選択した書籍に対するオブジェクト
 
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.custom_table_item, parent, false);
@@ -51,18 +51,16 @@ public class BookAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        // テキストサイズの指定
-        ((TextView) view.findViewById(R.id.book_title)).setTextSize(30);
-        ((TextView) view.findViewById(R.id.book_price)).setTextSize(20);
-        ((TextView) view.findViewById(R.id.book_purchase_date)).setTextSize(20);
-        ((TextView) view.findViewById(R.id.text_sign)).setTextSize(25);
-        // TextViewへの入力内容
-        ((TextView) view.findViewById(R.id.book_title)).setText(bookList.get(i).getTitle());
-        ((TextView) view.findViewById(R.id.book_price)).setText(context.getResources().getString(R.string.price_notation, bookList.get(i).getPrice()));
-        ((TextView) view.findViewById(R.id.book_purchase_date)).setText(bookList.get(i).getPurchaseDate());
+        TextView title = (TextView) view.findViewById(R.id.book_title);
+        TextView price = (TextView) view.findViewById(R.id.book_price);
+        TextView purchase_date = (TextView) view.findViewById(R.id.book_purchase_date);
+        ImageView thumbnail = (ImageView) view.findViewById(R.id.book_thumbnail);
 
-        // 書籍のサムネイルを表示
-        ((ImageView) view.findViewById(R.id.book_thumbnail)).setImageBitmap(bookList.get(i).getImgBmp());
+        // 各TextView及び書籍画像のImageviewをセットする
+        title.setText(book.getTitle());
+        price.setText(context.getString(R.string.price_notation, book.getPrice()));
+        purchase_date.setText(book.getPurchaseDate());
+        thumbnail.setImageBitmap(book.getImgBmp());
 
         return view;
     }
