@@ -28,7 +28,9 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        if (this.listener == null) return;
+        if (this.listener == null) {
+            return;
+        }
         this.listener.onDateSet(datePicker, year, month, day);
     }
 
@@ -36,4 +38,9 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         this.listener = listner;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.listener = null;
+    }
 }

@@ -82,11 +82,12 @@ public class BookListFragment extends Fragment {
                 BookEditFragment fragment = new BookEditFragment();
 
                 // 書籍編集画面遷移用の値渡し
+                Book selectedBook = bookList.get(i);
                 Bundle args = new Bundle();
-                args.putString("imgStr", String.valueOf(bookList.get(i).getImgStr()));
-                args.putString("title", String.valueOf(bookList.get(i).getTitle()));
-                args.putInt("price", bookList.get(i).getPrice());
-                args.putString("purchaseDate", String.valueOf(bookList.get(i).getPurchaseDate()));
+                args.putString(BundleKey.BUNDLE_KEY_IMAGESTRING.getString(), String.valueOf(selectedBook.getImgStr()));
+                args.putString(BundleKey.BUNDLE_KEY_TITLE.getString(), String.valueOf(selectedBook.getTitle()));
+                args.putInt(BundleKey.BUNDLE_KEY_PRICE.getString(), selectedBook.getPrice());
+                args.putString(BundleKey.BUNDLE_KEY_PURCHASEDATE.getString(), String.valueOf(selectedBook.getPurchaseDate()));
                 fragment.setArguments(args);
 
                 // 画面呼び出し

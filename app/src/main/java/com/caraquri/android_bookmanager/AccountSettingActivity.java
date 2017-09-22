@@ -47,8 +47,8 @@ public class AccountSettingActivity extends AppCompatActivity {
             case R.id.menu_save:
                 Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AccountSettingActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 戻るキー押下時に前の状態に戻ってしまうので過去のActivityをクリア
                 startActivity(intent);
-                AccountSettingActivity.this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

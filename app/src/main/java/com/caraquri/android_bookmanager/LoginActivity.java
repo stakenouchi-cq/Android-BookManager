@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.d("AppLaunchChecker", "It's first launch");
             Intent intent = new Intent(LoginActivity.this, AccountSettingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             LoginActivity.this.finish();
         }
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ログインしたら，この画面にはもう戻らない
                 startActivity(intent);
                 LoginActivity.this.finish();
             }

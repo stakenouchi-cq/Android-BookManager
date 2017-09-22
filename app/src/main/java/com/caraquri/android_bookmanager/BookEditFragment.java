@@ -65,10 +65,10 @@ public class BookEditFragment extends Fragment implements OnDateSetListener {
 
         // 各テキストボックスにデフォルト値を設定
         Bundle args = getArguments();
-        String imgStr = args.getString("imgStr");
-        String title = args.getString("title");
-        int price = args.getInt("price");
-        String purchaseDate = args.getString("purchaseDate");
+        String imgStr = args.getString(BundleKey.BUNDLE_KEY_IMAGESTRING.getString());
+        String title = args.getString(BundleKey.BUNDLE_KEY_TITLE.getString());
+        int price = args.getInt(BundleKey.BUNDLE_KEY_PRICE.getString());
+        String purchaseDate = args.getString(BundleKey.BUNDLE_KEY_PURCHASEDATE.getString());
 
         // 画面遷移直後の初期値を設定
         titleEditText.setText(title);
