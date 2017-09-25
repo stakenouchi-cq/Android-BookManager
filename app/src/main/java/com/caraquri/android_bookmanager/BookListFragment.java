@@ -79,7 +79,6 @@ public class BookListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                BookEditFragment fragment = new BookEditFragment();
 
                 Book selectedBook = bookList.get(i);
                 String imageString = selectedBook.getImgStr();
@@ -90,7 +89,7 @@ public class BookListFragment extends Fragment {
                 // 画面呼び出し
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.container, fragment.newInstance(imageString, title, price, purchaseDate));
+                transaction.replace(R.id.container, BookEditFragment.newInstance(imageString, title, price, purchaseDate));
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
