@@ -1,52 +1,43 @@
 package com.caraquri.android_bookmanager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
-public class BookAdapter extends BaseAdapter {
+public class BookAdapter extends ArrayAdapter<Book> {
     private Context context;
+    private int textViewResourceId;
     private LayoutInflater layoutInflater = null;
     private List<Book> bookList;
 
-    public BookAdapter(Context context) {
+    public BookAdapter(Context context, int textViewResourceId, List<Book> bookList) {
+        super(context, textViewResourceId, bookList);
         this.context = context;
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public void setBookList(List<Book> bookList) {
+        this.textViewResourceId = textViewResourceId;
         this.bookList = bookList;
-    }
-
-    @Override
-    public int getCount() {
-        return bookList.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return bookList.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return bookList.get(i).getId();
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
 
-        View view = null;
+        View view;
         Book book = bookList.get(i); // 選択した書籍に対するオブジェクト
 
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.custom_table_item, parent, false);
+            view = layoutInflater.inflate(textViewResourceId, null);
         } else {
             view = convertView;
         }
@@ -60,8 +51,20 @@ public class BookAdapter extends BaseAdapter {
         title.setText(book.getTitle());
         price.setText(context.getString(R.string.price_notation, book.getPrice()));
         purchase_date.setText(book.getPurchaseDate());
-        thumbnail.setImageBitmap(book.getImgBmp());
+        thumbnail.setImageBitmap(getBitmapFromAssets(book.getImagePath()));
 
         return view;
     }
+
+    private Bitmap getBitmapFromAssets(String imagePath) {
+        try {
+            InputStream inputStream = context.getResources().getAssets().open(imagePath);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

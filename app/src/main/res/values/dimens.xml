@@ -15,12 +15,14 @@
     <dimen name="book_thumbnail_height">96dp</dimen>
     <!-- 書籍編集・追加画面における各要素間のmargin -->
     <dimen name="margin_image_right">36dp</dimen>
-    <dimen name="margin_between_TmbAndElements">48dp</dimen>
+    <dimen name="margin_between_ThumbnailAndElements">48dp</dimen>
 
     <!-- カスタムセル内でのサイズやmargin情報 -->
     <dimen name="cell_height">96dp</dimen>
     <dimen name="cell_horizontal_margin">12dp</dimen>
-    <dimen name="margin_between_TmbAndBooktitle">16dp</dimen>
+    <dimen name="cell_thumbnail_height">96dp</dimen>
+    <dimen name="cell_thumbnail_width">80dp</dimen>
+    <dimen name="margin_between_ThumbnailAndBooktitle">16dp</dimen>
     <dimen name="margin_between_PdateAndRight">16dp</dimen>
 
     <!-- カスタムセルで用いるテキストサイズ -->

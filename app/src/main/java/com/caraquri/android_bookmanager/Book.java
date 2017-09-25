@@ -3,10 +3,9 @@ package com.caraquri.android_bookmanager;
 import android.graphics.Bitmap;
 
 public class Book {
-    long id;
+    private long id;
 
-    private String imgStr; // 画像をbase64で表現した時の文字列
-    private Bitmap imgBmp; // 画像に対するbitmap
+    private String imagePath; // 画像がある場所のpath
     private String title; // 書籍名
     private int price; // 価格
     private String purchaseDate; // 購入日
@@ -19,20 +18,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getImgStr() {
-        return imgStr;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImgStr(String imgStr) {
-        this.imgStr = imgStr;
-    }
-
-    public Bitmap getImgBmp() {
-        return imgBmp;
-    }
-
-    public void setImgBmp(Bitmap imgBmp) {
-        this.imgBmp = imgBmp;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getTitle() {

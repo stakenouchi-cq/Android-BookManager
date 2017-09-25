@@ -1,6 +1,7 @@
 package com.caraquri.android_bookmanager;
 
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +12,7 @@ import java.util.Calendar;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    private OnDateSetListener listener = null;
+    private OnDateSetListener listener; // DatePickerDialog.OnDateSetListener型
 
     @NonNull
     @Override
@@ -34,8 +35,8 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         this.listener.onDateSet(datePicker, year, month, day);
     }
 
-    public void setOnDatePickerDialogListner(OnDateSetListener listner) {
-        this.listener = listner;
+    public void setOnDatePickerDialogListener(OnDateSetListener listener) {
+        this.listener = listener;
     }
 
     @Override

@@ -3,13 +3,12 @@ package com.caraquri.android_bookmanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.AppLaunchChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,19 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 初回起動時はアカウント新規登録画面，そうでない時はログイン画面へ
-        if (AppLaunchChecker.hasStartedFromLauncher(this)) {
-            Log.d("AppLaunchChecker", "It's not first launch");
-        } else {
-            Log.d("AppLaunchChecker", "It's first launch");
-            Intent intent = new Intent(LoginActivity.this, AccountSettingActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            LoginActivity.this.finish();
-        }
-        AppLaunchChecker.onActivityCreate(this);
-
         setContentView(R.layout.activity_login);
 
         emailEditText = (EditText) findViewById(R.id.email_edit_text);
@@ -48,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ログインしたら，この画面にはもう戻らない
                 startActivity(intent);
-                LoginActivity.this.finish();
+                finish();
             }
         });
     }

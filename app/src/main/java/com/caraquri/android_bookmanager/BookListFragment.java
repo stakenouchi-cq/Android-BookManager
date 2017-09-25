@@ -43,12 +43,12 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // ツールバーの定義
-        Toolbar toolbar = (Toolbar) ((AppCompatActivity) getActivity()).findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
         toolbar.setNavigationIcon(null); // 戻るキーは非表示
         toolbar.setTitle(R.string.book_lineup);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        String imgPaths[] = {
+        String imagePaths[] = {
                 "cppbook.png",
                 "javabook.png",
                 "Oxford_Dict.png",
@@ -60,9 +60,7 @@ public class BookListFragment extends Fragment {
         final List<Book> bookList = new ArrayList<>();
         for (int i=0; i<6; i++) {
             Book book = new Book();
-            Bitmap imgBmp = getBmpFromAssets(imgPaths[i]);
-            book.setImgBmp(imgBmp);
-            book.setImgStr(ImageUtil.encodeToBase64(imgBmp));
+            book.setImagePath(imagePaths[i]);
             book.setTitle("hoge"+i);
             book.setPrice((i+1)*1000);
             book.setPurchaseDate("2017/05/0"+(i+1));
@@ -71,9 +69,7 @@ public class BookListFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.book_list_view);
 
-        BookAdapter adapter = new BookAdapter(getActivity());
-        adapter.setBookList(bookList);
-        adapter.notifyDataSetChanged();
+        BookAdapter adapter = new BookAdapter(getActivity(), R.layout.custom_table_item, bookList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,7 +77,7 @@ public class BookListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Book selectedBook = bookList.get(i);
-                String imageString = selectedBook.getImgStr();
+                String imagePath = selectedBook.getImagePath();
                 String title = selectedBook.getTitle();
                 int price = selectedBook.getPrice();
                 String purchaseDate = selectedBook.getPurchaseDate();
@@ -89,7 +85,7 @@ public class BookListFragment extends Fragment {
                 // 画面呼び出し
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.container, BookEditFragment.newInstance(imageString, title, price, purchaseDate));
+                transaction.replace(R.id.container, BookEditFragment.newInstance(imagePath, title, price, purchaseDate));
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -120,17 +116,6 @@ public class BookListFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private Bitmap getBmpFromAssets(String imgPath) {
-        try {
-            InputStream inputStream = getResources().getAssets().open(imgPath);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 

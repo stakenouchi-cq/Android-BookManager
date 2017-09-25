@@ -38,7 +38,7 @@ public class SettingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // ツールバーの設定
-        Toolbar toolbar = (Toolbar) ((AppCompatActivity) getActivity()).findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
         toolbar.setTitle(R.string.setting);
         toolbar.setNavigationIcon(null); // 戻るキーは非表示
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

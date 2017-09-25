@@ -1,60 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/cell_height"
     android:paddingLeft="@dimen/cell_horizontal_margin"
-    android:paddingRight="@dimen/cell_horizontal_margin"
-    android:orientation="horizontal">
+    android:paddingRight="@dimen/cell_horizontal_margin">
 
     <ImageView
         android:id="@+id/book_thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/cell_thumbnail_width"
+        android:layout_height="@dimen/cell_thumbnail_height"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:scaleType="centerCrop"
-        android:layout_weight="2" />
+        android:paddingRight="@dimen/margin_between_ThumbnailAndBooktitle"
+        android:scaleType="fitXY" />
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/book_thumbnail"
-        android:paddingLeft="@dimen/margin_between_TmbAndBooktitle"
-        android:layout_weight="7">
-        <TextView
-            android:id="@+id/book_title"
-            android:textSize="@dimen/text_size_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
+    <TextView
+        android:id="@+id/book_title"
+        android:textSize="@dimen/text_size_large"
+        android:layout_toRightOf="@id/book_thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
-        <TextView
-            android:id="@+id/book_price"
-            android:textSize="@dimen/text_size_small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/book_title"
-            android:layout_alignParentBottom="true" />
+    <TextView
+        android:id="@+id/book_price"
+        android:textSize="@dimen/text_size_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/book_title"
+        android:layout_alignParentBottom="true" />
 
-        <TextView
-            android:id="@+id/book_purchase_date"
-            android:textSize="@dimen/text_size_small"
-            android:gravity="right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/margin_between_PdateAndRight"
-            android:layout_alignTop="@+id/book_price"/>
+    <TextView
+        android:id="@+id/book_purchase_date"
+        android:textSize="@dimen/text_size_small"
+        android:gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:paddingRight="@dimen/margin_between_PdateAndRight"
+        android:layout_alignBottom="@+id/book_price"/>
 
-        <TextView
-            android:id="@+id/text_sign"
-            android:textSize="@dimen/text_size_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text=">"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/text_sign"
+        android:textSize="@dimen/text_size_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text=">" />
 
-
-</LinearLayout>
+</RelativeLayout>
