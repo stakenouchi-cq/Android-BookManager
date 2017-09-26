@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android-BookManager</string>
+    <string name="setting">設定</string>
+    <string name="load_more">*** もっと読み込む ***</string>
+    <string name="account_setting">アカウント設定</string>
+    <string name="book_lineup">書籍一覧</string>
+    <string name="email_address">メールアドレス</string>
+    <string name="password">パスワード</string>
+    <string name="password_confirm">パスワード確認</string>
+    <string name="login">ログイン</string>
+    <string name="add_thumbnail">画像添付</string>
+    <string name="book_title">書籍名</string>
+    <string name="price">金額</string>
+    <string name="price_notation">%1$,3d円</string>
+    <string name="purchase_date">購入日</string>
+    <string name="book_edit">書籍編集</string>
+    <string name="book_add">書籍追加</string>
+</resources>
