@@ -1,18 +1,13 @@
 package com.caraquri.android_bookmanager;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -49,20 +44,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
         title.setText(book.getTitle());
         price.setText(context.getString(R.string.price_notation, book.getPrice()));
         purchase_date.setText(book.getPurchaseDate());
-        thumbnail.setImageBitmap(getBitmapFromAssets(book.getImagePath()));
+        thumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(context, book.getImagePath()));
 
         return view;
-    }
-
-    private Bitmap getBitmapFromAssets(String imagePath) {
-        try {
-            InputStream inputStream = context.getResources().getAssets().open(imagePath);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }

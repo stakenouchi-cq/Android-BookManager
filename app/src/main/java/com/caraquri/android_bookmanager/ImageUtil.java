@@ -1,10 +1,13 @@
 package com.caraquri.android_bookmanager;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Base64;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageUtil {
 
@@ -32,6 +35,18 @@ public class ImageUtil {
             return true;
         }
         return false;
+    }
+
+    // Assetsにある画像をbitmapへ変換
+    public static Bitmap getBitmapFromAssets(Context context, String imagePath) {
+        try {
+            InputStream inputStream = context.getAssets().open(imagePath);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

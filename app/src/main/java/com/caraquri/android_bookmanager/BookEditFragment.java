@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
-import java.io.InputStream;
 
 
 public class BookEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
@@ -88,7 +87,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         titleEditText.setText(title);
         priceEditText.setText(String.valueOf(price));
         purchaseDateEditText.setText(purchaseDate);
-        bookThumbnail.setImageBitmap(getBitmapFromAssets(imagePath));
+        bookThumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(getContext(), imagePath));
 
         Button addThumbnailButton = (Button) view.findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
@@ -174,17 +173,6 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private Bitmap getBitmapFromAssets(String imagePath) {
-        try {
-            InputStream inputStream = getResources().getAssets().open(imagePath);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
