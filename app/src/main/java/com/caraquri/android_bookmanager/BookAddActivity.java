@@ -3,6 +3,7 @@ package com.caraquri.android_bookmanager;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,7 +52,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
 
         bookThumbnail = (ImageView) findViewById(R.id.book_thumbnail);
-        bookThumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(getApplicationContext(), "no_image.png"));
+        bookThumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(getBaseContext(), "no_image.png"));
 
         Button addThumbnailButton = (Button) findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
