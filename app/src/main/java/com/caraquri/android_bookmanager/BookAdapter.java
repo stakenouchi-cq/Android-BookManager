@@ -19,14 +19,12 @@ import java.util.List;
 public class BookAdapter extends ArrayAdapter<Book> {
     private Context context;
     private int textViewResourceId;
-    private LayoutInflater layoutInflater = null;
-    private List<Book> bookList;
+    private LayoutInflater layoutInflater;
 
     public BookAdapter(Context context, int textViewResourceId, List<Book> bookList) {
         super(context, textViewResourceId, bookList);
         this.context = context;
         this.textViewResourceId = textViewResourceId;
-        this.bookList = bookList;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -34,7 +32,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
     public View getView(int i, View convertView, ViewGroup parent) {
 
         View view;
-        Book book = bookList.get(i); // 選択した書籍に対するオブジェクト
+        Book book = getItem(i); // 選択した書籍に対するオブジェクト
 
         if (convertView == null) {
             view = layoutInflater.inflate(textViewResourceId, null);

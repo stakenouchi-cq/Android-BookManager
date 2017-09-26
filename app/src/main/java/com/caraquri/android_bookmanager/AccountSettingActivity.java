@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class AccountSettingActivity extends AppCompatActivity {
 
-    private final int REQUEST_PERMISSION = 1000;
+    private static final int REQUEST_PERMISSION = 1000;
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText passwordConfirmEditText;
