@@ -1,16 +1,21 @@
 package com.caraquri.android_bookmanager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -33,7 +38,8 @@ import java.io.IOException;
 
 public class BookEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    private static final int REQUEST_PICK_IMAGEFILE = 1001;
+    private static final int REQUEST_PICK_IMAGEFILE = 1;
+    private static final int REQUEST_PICK_PERMISSION = 2;
     private final static String ARGS_IMAGEPATH = "args_imagePath";
     private final static String ARGS_TITLE = "args_title";
     private final static String ARGS_PRICE = "args_price";
@@ -120,6 +126,16 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         return Environment.getExternalStorageState() + "/" + Environment.DIRECTORY_DCIM + "/";
     }
 
+    private void checkPermission() {
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 許可されていない
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_PICK_PERMISSION);
+            return;
+        }
+    }
+
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor = getContext().getContentResolver().openFileDescriptor(uri, "r");
         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
@@ -140,6 +156,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
             return;
         }
         if (requestCode == REQUEST_PICK_IMAGEFILE && resultCode == Activity.RESULT_OK) {
+            checkPermission();
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
             try {
@@ -149,6 +166,21 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_PICK_PERMISSION) {
+            // requestPermissionsで設定した順番で結果が格納されています。
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 許可されたので処理を続行
+                return;
+            } else {
+                Toast.makeText(getActivity(), "Not have perimission to storage.", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

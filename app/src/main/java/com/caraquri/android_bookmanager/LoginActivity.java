@@ -1,9 +1,9 @@
 package com.caraquri.android_bookmanager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.AppLaunchChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,6 +27,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // 初回起動時はアカウント新規登録画面，そうでない時はログイン画面へ
+        if (AppLaunchChecker.hasStartedFromLauncher(this)) {
+            Log.d("AppLaunchChecker", "It's not first launch");
+        } else {
+            Log.d("AppLaunchChecker", "It's first launch");
+            Intent intent = new Intent(this, AccountSettingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+        }
+        AppLaunchChecker.onActivityCreate(this);
+
         emailEditText = (EditText) findViewById(R.id.email_edit_text);
         passwordEditText = (EditText) findViewById(R.id.password_edit_text);
         emailEditText.setText("hoge@hoge.com");
@@ -42,10 +54,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+
                 Retrofit retrofit = Client.setRetrofit();
-
                 UserClient client = retrofit.create(UserClient.class);
-
                 Call<UserResponse> call = client.userLogin(new User(email, password));
                 call.enqueue(new Callback<UserResponse>() {
                     @Override
