@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 
@@ -44,7 +46,12 @@ public class BookAdapter extends ArrayAdapter<Book> {
         title.setText(book.getTitle());
         price.setText(context.getString(R.string.price_notation, book.getPrice()));
         purchase_date.setText(book.getPurchaseDate());
-        thumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(context, book.getImagePath()));
+
+        // Glideで書籍のサムネイルをURLで取ってくる
+        Glide
+                .with(context)
+                .load(book.getImagePath())
+                .into(thumbnail);
 
         return view;
     }

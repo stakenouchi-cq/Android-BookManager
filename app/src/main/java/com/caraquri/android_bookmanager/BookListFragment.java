@@ -49,10 +49,6 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         page = 1;
 
-        SharedPreferences preferences = getContext().getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
-        final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
-        Log.d("Token", token);
-
         // ツールバーの定義
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
         toolbar.setNavigationIcon(null); // 戻るキーは非表示
@@ -60,12 +56,12 @@ public class BookListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         String imagePaths[] = {
-                "cppbook.png",
-                "javabook.png",
-                "Oxford_Dict.png",
-                "sw3book.png",
-                "toeic_official.png",
-                "toeicbook.png"
+                "https://i.imgur.com/tOODsrs.png",
+                "https://i.imgur.com/NBJkGtT.png",
+                "https://i.imgur.com/KNQGWS1.png",
+                "https://i.imgur.com/YldMMWr.png",
+                "https://i.imgur.com/YCcDIi2.png",
+                "https://i.imgur.com/7hOCkyI.png"
         };
 
         final List<Book> bookList = new ArrayList<>();
@@ -106,35 +102,44 @@ public class BookListFragment extends Fragment {
         loadMoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Retrofit retrofit = Client.setRetrofit();
-                BookClient client = retrofit.create(BookClient.class);
-                Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, page);
-                call.enqueue(new Callback<BookResponse>() {
-                    @Override
-                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
-                        Log.d("onResponse", response.toString());
-                        if (!response.isSuccessful()) {
-                            return;
-                        }
-                        BookResponse bookResponse = response.body();
-                        for (BookResult bookResult: bookResponse.getBookResult()) {
-                            Log.d("Book ID", String.valueOf(bookResult.bookId));
-                            Log.d("name", bookResult.name);
-                            Log.d("image", bookResult.imageUrl);
-                            Log.d("Price", String.valueOf(bookResult.price));
-                            Log.d("Purchase Date", bookResult.purchaseDate);
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<BookResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-
                 Toast.makeText(getActivity(), "More books will be loaded.", Toast.LENGTH_SHORT).show();
+                getBookDatas(page);
+                page += 1;
             }
         });
 
+    }
+
+    private void getBookDatas(int page) {
+        // まずは，tokenを取ってくる
+        SharedPreferences preferences = getContext().getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
+        final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
+        Log.d("Token", token);
+        // 指定のページ番号における書籍リストを取得
+        Retrofit retrofit = Client.setRetrofit();
+        BookClient client = retrofit.create(BookClient.class);
+        Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, page);
+        call.enqueue(new Callback<BookResponse>() {
+            @Override
+            public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                Log.d("onResponse", response.toString());
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                BookResponse bookResponse = response.body();
+                for (BookResult bookResult: bookResponse.getBookResult()) {
+                    Log.d("Book ID", String.valueOf(bookResult.bookId));
+                    Log.d("name", bookResult.name);
+                    Log.d("image", bookResult.imageUrl);
+                    Log.d("Price", String.valueOf(bookResult.price));
+                    Log.d("Purchase Date", bookResult.purchaseDate);
+                }
+            }
+            @Override
+            public void onFailure(Call<BookResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
