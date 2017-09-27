@@ -1,20 +1,12 @@
 package com.caraquri.android_bookmanager;
 
 public class User {
-    public String email;
-    public String token;
+    private String email;
+    private String password;
 
-    public User(String email, String token){
+    public User(String email, String password) {
         this.email = email;
-        this.token = token;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getToken() {
-        return token;
+        this.password = password;
     }
 
 }

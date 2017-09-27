@@ -15,4 +15,5 @@
     <string name="purchase_date">Purchase Date</string>
     <string name="book_edit">Edit Book</string>
     <string name="book_add">Add Book</string>
+    <string name="api_base_url">http://54.250.239.8</string>
 </resources>
