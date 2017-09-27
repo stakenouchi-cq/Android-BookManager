@@ -1,6 +1,7 @@
 package com.caraquri.android_bookmanager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -54,8 +55,13 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
                         UserResponse userResponse = response.body();
-                        Log.d("userResponse", userResponse.toString());
-                        Log.d("token", String.valueOf(userResponse.getToken()));
+                        int userId = userResponse.getUserId();
+                        String email = userResponse.getEmail();
+                        String token = userResponse.getToken();
+                        Log.d("User ID", String.valueOf(userId));
+                        Log.d("email", email);
+                        Log.d("token", token);
+                        PreferenceUtil.setPreferences(LoginActivity.this, userId, email, token);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ログインしたら，この画面にはもう戻らない
                         startActivity(intent);
