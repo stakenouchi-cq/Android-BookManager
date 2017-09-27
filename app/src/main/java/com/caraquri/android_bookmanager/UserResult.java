@@ -2,7 +2,7 @@ package com.caraquri.android_bookmanager;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+public class UserResult {
     @SerializedName("id")
     protected int userId;
 

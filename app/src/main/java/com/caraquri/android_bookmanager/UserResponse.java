@@ -1,12 +1,13 @@
 package com.caraquri.android_bookmanager;
 
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
+import com.google.gson.annotations.SerializedName;
 
 public class UserResponse {
-    private Result result;
+
+    @SerializedName("result")
+    private UserResult userResult;
+
     private int userId;
     private String email;
     private String token;
@@ -15,15 +16,15 @@ public class UserResponse {
     }
 
     public int getUserId() {
-        return result.userId;
+        return userResult.userId;
     }
 
     public String getEmail() {
-        return result.email;
+        return userResult.email;
     }
 
     public String getToken() {
-        return result.token;
+        return userResult.token;
     }
 
 }

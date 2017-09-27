@@ -25,10 +25,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 
 public class BookListFragment extends Fragment {
 
     private ListView listView;
+    private static final int LOAD_LIMIT = 3;
+    private int page;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,9 +47,10 @@ public class BookListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        page = 1;
 
         SharedPreferences preferences = getContext().getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
-        String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
+        final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
         Log.d("Token", token);
 
         // ツールバーの定義
@@ -98,6 +106,31 @@ public class BookListFragment extends Fragment {
         loadMoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Retrofit retrofit = Client.setRetrofit();
+                BookClient client = retrofit.create(BookClient.class);
+                Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, page);
+                call.enqueue(new Callback<BookResponse>() {
+                    @Override
+                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                        Log.d("onResponse", response.toString());
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        BookResponse bookResponse = response.body();
+                        for (BookResult bookResult: bookResponse.getBookResult()) {
+                            Log.d("Book ID", String.valueOf(bookResult.bookId));
+                            Log.d("name", bookResult.name);
+                            Log.d("image", bookResult.imageUrl);
+                            Log.d("Price", String.valueOf(bookResult.price));
+                            Log.d("Purchase Date", bookResult.purchaseDate);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<BookResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
                 Toast.makeText(getActivity(), "More books will be loaded.", Toast.LENGTH_SHORT).show();
             }
         });
