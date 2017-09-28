@@ -20,7 +20,7 @@ public class ImageUtil {
     public static String encodeToBase64(Bitmap image) {
         Bitmap immagex = image;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        immagex.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream); // 画像は高圧縮にする(画像が大きすぎると保存失敗率大のため)
         byte[] bytes = byteArrayOutputStream.toByteArray();
         String imageEncoded = Base64.encodeToString(bytes, Base64.NO_WRAP);
         return imageEncoded;
