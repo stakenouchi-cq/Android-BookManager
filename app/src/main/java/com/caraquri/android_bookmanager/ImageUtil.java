@@ -43,9 +43,9 @@ public class ImageUtil {
     }
 
     // Assetsにある画像をbitmapへ変換
-    public static Bitmap getBitmapFromAssets(Context context, String imagePath) {
+    public static Bitmap getBitmapFromAssets(Context context, String imageUrl) {
         try {
-            InputStream inputStream = context.getAssets().open(imagePath);
+            InputStream inputStream = context.getAssets().open(imageUrl);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             return bitmap;
         } catch (IOException e) {

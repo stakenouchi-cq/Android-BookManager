@@ -55,7 +55,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
     private static final int REQUEST_PICK_IMAGEFILE = 1;
     private static final int REQUEST_PICK_PERMISSION = 2;
     private final static String ARGS_BOOKID = "args_bookId";
-    private final static String ARGS_IMAGEPATH = "args_imagePath";
+    private final static String ARGS_IMAGEURL = "args_imageUrl";
     private final static String ARGS_TITLE = "args_title";
     private final static String ARGS_PRICE = "args_price";
     private final static String ARGS_PURCHASEDATE = "args_purchaseDate";
@@ -66,11 +66,11 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
     private ImageView bookThumbnailImageView;
     private Bitmap bookThumbnailBitmap;
 
-    public static BookEditFragment newInstance(int bookId, String imagePath, String title, int price, String purchaseDate) {
+    public static BookEditFragment newInstance(int bookId, String imageUrl, String title, int price, String purchaseDate) {
         BookEditFragment fragment = new BookEditFragment();
         Bundle args = new Bundle();
         args.putInt(ARGS_BOOKID, bookId);
-        args.putString(ARGS_IMAGEPATH, imagePath);
+        args.putString(ARGS_IMAGEURL, imageUrl);
         args.putString(ARGS_TITLE, title);
         args.putInt(ARGS_PRICE, price);
         args.putString(ARGS_PURCHASEDATE, purchaseDate);
@@ -101,7 +101,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         purchaseDateEditText = (EditText) view.findViewById(R.id.purchase_date_edit_text);
 
         Bundle args = getArguments();
-        String imagePath = args.getString(ARGS_IMAGEPATH);
+        String imageUrl = args.getString(ARGS_IMAGEURL);
         String title = args.getString(ARGS_TITLE);
         int price = args.getInt(ARGS_PRICE);
         String purchaseDate = args.getString(ARGS_PURCHASEDATE);
@@ -111,7 +111,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         priceEditText.setText(String.valueOf(price));
         purchaseDateEditText.setText(purchaseDate);
         Glide.with(this)
-                .load(imagePath)
+                .load(imageUrl)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

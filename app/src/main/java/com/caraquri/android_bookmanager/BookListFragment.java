@@ -66,7 +66,7 @@ public class BookListFragment extends Fragment {
 
                 Book selectedBook = bookList.get(i);
                 int bookId = selectedBook.getBookId();
-                String imagePath = selectedBook.getImagePath();
+                String imageUrl = selectedBook.getImageUrl();
                 String title = selectedBook.getTitle();
                 int price = selectedBook.getPrice();
                 String purchaseDate = selectedBook.getPurchaseDate();
@@ -74,7 +74,7 @@ public class BookListFragment extends Fragment {
                 // 画面呼び出し
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.container, BookEditFragment.newInstance(bookId, imagePath, title, price, purchaseDate));
+                transaction.replace(R.id.container, BookEditFragment.newInstance(bookId, imageUrl, title, price, purchaseDate));
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -127,13 +127,8 @@ public class BookListFragment extends Fragment {
                     String imageUrl = bookResult.imageUrl;
                     int price = bookResult.price;
                     String purchaseDate = bookResult.purchaseDate;
-                    Log.d("Book ID", String.valueOf(bookId));
-                    Log.d("name", name);
-                    Log.d("image", imageUrl);
-                    Log.d("Price", String.valueOf(price));
-                    Log.d("Purchase Date", String.valueOf(purchaseDate));
                     book.setBookId(bookId);
-                    book.setImagePath(imageUrl);
+                    book.setImageUrl(imageUrl);
                     book.setTitle(name);
                     book.setPrice(price);
                     book.setPurchaseDate(purchaseDate);

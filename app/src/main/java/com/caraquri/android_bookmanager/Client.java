@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Client {
 
-    private static String API_BASE_URL = "http://54.250.239.8";
+    private static final String API_BASE_URL = "http://54.250.239.8";
 
     // 書籍管理サーバーとの接続をビルド
     public static Retrofit setRetrofit() {
