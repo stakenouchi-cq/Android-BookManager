@@ -19,10 +19,10 @@ public class ImageUtil {
     // Bitmap画像をBase64にエンコード
     public static String encodeToBase64(Bitmap image) {
         Bitmap immagex = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.NO_WRAP);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        String imageEncoded = Base64.encodeToString(bytes, Base64.NO_WRAP);
         return imageEncoded;
     }
 
