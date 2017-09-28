@@ -126,7 +126,7 @@ public class BookListFragment extends Fragment {
                     String name = bookResult.name;
                     String imageUrl = bookResult.imageUrl;
                     int price = bookResult.price;
-                    String purchaseDate = bookResult.purchaseDate;
+                    String purchaseDate = bookResult.purchaseDate.replace("-", "/"); // 年月日の区切りをスラッシュに変更
                     book.setBookId(bookId);
                     book.setImageUrl(imageUrl);
                     book.setTitle(name);

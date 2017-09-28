@@ -45,7 +45,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         // 各TextView及び書籍画像のImageviewをセットする
         title.setText(book.getTitle());
         price.setText(context.getString(R.string.price_notation, book.getPrice()));
-        purchase_date.setText(book.getPurchaseDate().replace("-", "/"));
+        purchase_date.setText(book.getPurchaseDate());
 
         // Glideで書籍のサムネイルをURLで取ってくる
         Glide
