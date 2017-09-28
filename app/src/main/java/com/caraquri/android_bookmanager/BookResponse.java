@@ -7,8 +7,6 @@ import java.util.List;
 
 public class BookResponse {
 
-    private String image;
-
     @SerializedName("result")
     private List<BookResult> bookResult;
 
@@ -17,5 +15,5 @@ public class BookResponse {
     public List<BookResult> getBookResult() {
         return bookResult;
     }
-
+    
 }

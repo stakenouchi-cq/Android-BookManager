@@ -40,6 +40,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -234,15 +236,15 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
 
                 Retrofit retrofit = Client.setRetrofit();
                 BookClient client = retrofit.create(BookClient.class);
-                Call<BookResponse> call = client.editBookData(token, getArguments().getInt(ARGS_BOOKID), new BookRequest(name, image, price, purchaseDate));
-                call.enqueue(new Callback<BookResponse>() {
+                Call<JSONObject> call = client.editBookData(token, getArguments().getInt(ARGS_BOOKID), new BookRequest(name, image, price, purchaseDate));
+                call.enqueue(new Callback<JSONObject>() {
                     @Override
-                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                    public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                         Toast.makeText(getContext(), "Save Succeeded", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onFailure(Call<BookResponse> call, Throwable t) {
+                    public void onFailure(Call<JSONObject> call, Throwable t) {
                         t.printStackTrace();
                         Toast.makeText(getContext(), "Save failed", Toast.LENGTH_SHORT).show();
                     }

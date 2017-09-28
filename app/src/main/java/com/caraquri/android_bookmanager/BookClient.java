@@ -1,9 +1,13 @@
 package com.caraquri.android_bookmanager;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -24,14 +28,14 @@ public interface BookClient {
 
     @Headers("Content-Type: application/json")
     @POST("/books")
-    Call<BookResponse> addBookData(
+    Call<JSONObject> addBookData(
             @Header("Authorization") String token,
             @Body BookRequest bookRequest
     );
 
     @Headers("Content-Type: application/json")
     @PUT("/books/{id}")
-    Call<BookResponse> editBookData(
+    Call<JSONObject> editBookData(
             @Header("Authorization") String token,
             @Path("id") int userId,
             @Body BookRequest bookRequest
