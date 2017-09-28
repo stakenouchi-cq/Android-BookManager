@@ -33,8 +33,10 @@ import retrofit2.Retrofit;
 
 public class BookListFragment extends Fragment {
 
-    private ListView listView;
     private static final int LOAD_LIMIT = 3;
+    private ListView listView;
+    private BookAdapter adapter;
+    private final List<Book> bookList = new ArrayList<>();
     private int page;
 
     @Override
@@ -47,7 +49,6 @@ public class BookListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = 1;
 
         // ツールバーの定義
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
@@ -55,28 +56,8 @@ public class BookListFragment extends Fragment {
         toolbar.setTitle(R.string.book_lineup);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        String imagePaths[] = {
-                "https://i.imgur.com/tOODsrs.png",
-                "https://i.imgur.com/NBJkGtT.png",
-                "https://i.imgur.com/KNQGWS1.png",
-                "https://i.imgur.com/YldMMWr.png",
-                "https://i.imgur.com/YCcDIi2.png",
-                "https://i.imgur.com/7hOCkyI.png"
-        };
-
-        final List<Book> bookList = new ArrayList<>();
-        for (int i=0; i<6; i++) {
-            Book book = new Book();
-            book.setImagePath(imagePaths[i]);
-            book.setTitle("hoge"+i);
-            book.setPrice((i+1)*1000);
-            book.setPurchaseDate("2017/05/0"+(i+1));
-            bookList.add(book);
-        }
-
         listView = (ListView) view.findViewById(R.id.book_list_view);
-
-        BookAdapter adapter = new BookAdapter(getActivity(), R.layout.custom_table_item, bookList);
+        adapter = new BookAdapter(getActivity(), R.layout.custom_table_item, bookList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,15 +83,26 @@ public class BookListFragment extends Fragment {
         loadMoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "More books will be loaded.", Toast.LENGTH_SHORT).show();
-                getBookDatas(page);
+                Log.d("Page", String.valueOf(page));
+                Log.d("Length of list", String.valueOf(bookList.size()));
                 page += 1;
+                getBookDatas(page);
             }
         });
 
     }
 
-    private void getBookDatas(int page) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 書籍一覧画面に入ったら，書籍データを格納した配列をクリアして1ページ目からのデータを取得
+        bookList.clear();
+        adapter.notifyDataSetChanged();
+        page = 1;
+        getBookDatas(page);
+    }
+
+    private void getBookDatas(int pageNum) {
         // まずは，tokenを取ってくる
         SharedPreferences preferences = getContext().getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
         final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
@@ -118,7 +110,7 @@ public class BookListFragment extends Fragment {
         // 指定のページ番号における書籍リストを取得
         Retrofit retrofit = Client.setRetrofit();
         BookClient client = retrofit.create(BookClient.class);
-        Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, page);
+        Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, pageNum);
         call.enqueue(new Callback<BookResponse>() {
             @Override
             public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
@@ -128,16 +120,33 @@ public class BookListFragment extends Fragment {
                 }
                 BookResponse bookResponse = response.body();
                 for (BookResult bookResult: bookResponse.getBookResult()) {
-                    Log.d("Book ID", String.valueOf(bookResult.bookId));
-                    Log.d("name", bookResult.name);
-                    Log.d("image", bookResult.imageUrl);
-                    Log.d("Price", String.valueOf(bookResult.price));
-                    Log.d("Purchase Date", bookResult.purchaseDate);
+                    Book book = new Book();
+                    int bookId = bookResult.bookId;
+                    String name = bookResult.name;
+                    String imageUrl = bookResult.imageUrl;
+                    int price = bookResult.price;
+                    String purchaseDate = bookResult.purchaseDate;
+                    Log.d("Book ID", String.valueOf(bookId));
+                    Log.d("name", name);
+                    Log.d("image", imageUrl);
+                    Log.d("Price", String.valueOf(price));
+                    Log.d("Purchase Date", String.valueOf(purchaseDate));
+                    book.setBookId(bookId);
+                    book.setImagePath(imageUrl);
+                    book.setTitle(name);
+                    book.setPrice(price);
+                    book.setPurchaseDate(purchaseDate);
+                    bookList.add(book);
                 }
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
                 t.printStackTrace();
+                Toast.makeText(getContext(), "Loading book data has been failed", Toast.LENGTH_SHORT).show();
+                if (page >= 2) {
+                    page -= 1; // 読み込みに失敗したため，足したページを1つ戻す
+                }
             }
         });
     }

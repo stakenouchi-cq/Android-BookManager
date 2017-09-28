@@ -3,19 +3,19 @@ package com.caraquri.android_bookmanager;
 import android.graphics.Bitmap;
 
 public class Book {
-    private long id;
 
+    private int bookId;
     private String imagePath; // 画像がある場所のpath
     private String title; // 書籍名
     private int price; // 価格
     private String purchaseDate; // 購入日
 
-    public long getId() {
-        return id;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public String getImagePath() {
