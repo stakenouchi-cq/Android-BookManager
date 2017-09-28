@@ -41,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
 
         emailEditText = (EditText) findViewById(R.id.email_edit_text);
         passwordEditText = (EditText) findViewById(R.id.password_edit_text);
-        emailEditText.setText("hoge@hoge.com");
-        passwordEditText.setText("password");
         Button loginButton = (Button) findViewById(R.id.login_button);
 
         Toolbar toolbar = (Toolbar) findViewById (R.id.login_toolbar);
