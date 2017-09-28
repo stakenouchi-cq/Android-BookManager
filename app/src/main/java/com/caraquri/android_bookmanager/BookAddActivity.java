@@ -3,16 +3,11 @@ package com.caraquri.android_bookmanager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -30,9 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class BookAddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -41,7 +34,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
     private EditText titleEditText;
     private EditText priceEditText;
     private EditText purchaseDateEditText;
-    private ImageView bookThumbnail;
+    private ImageView bookThumbnailImageView;
+    private Bitmap bookThumbnailBitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +51,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         titleEditText = (EditText) findViewById(R.id.title_edit_text);
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
 
-        bookThumbnail = (ImageView) findViewById(R.id.book_thumbnail);
-        bookThumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(getBaseContext(), "no_image.png"));
+        bookThumbnailImageView = (ImageView) findViewById(R.id.book_thumbnail);
+        bookThumbnailImageView.setImageBitmap(ImageUtil.getBitmapFromAssets(getBaseContext(), "no_image.png"));
 
         Button addThumbnailButton = (Button) findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
@@ -93,14 +87,6 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         }
     }
 
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
-
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         purchaseDateEditText.setText(String.format("%d/%02d/%02d", year, month+1, day));
@@ -117,8 +103,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
             try {
-                Bitmap bm = getBitmapFromUri(uri);
-                bookThumbnail.setImageBitmap(bm);
+                bookThumbnailBitmap = ImageUtil.getBitmapFromUri(this, uri);
+                bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -158,6 +144,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
                 if (TextUtils.isEmpty(titleEditText.getText()) || TextUtils.isEmpty(priceEditText.getText()) || !TextUtils.isDigitsOnly(priceEditText.getText()) || TextUtils.isEmpty(purchaseDateEditText.getText())) {
                     return false;
                 }
+                // 書籍データの保存に入る
+
                 Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
                 return true;
             default:

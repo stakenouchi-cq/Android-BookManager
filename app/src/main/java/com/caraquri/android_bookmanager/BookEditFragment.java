@@ -6,11 +6,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -32,7 +30,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
 
 
@@ -136,14 +133,6 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getContext().getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
-
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         purchaseDateEditText.setText(String.format("%d/%02d/%02d", year, month+1, day));
@@ -160,7 +149,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
             try {
-                Bitmap bm = getBitmapFromUri(uri);
+                Bitmap bm = ImageUtil.getBitmapFromUri(getContext(), uri);
                 bookThumbnail.setImageBitmap(bm);
             } catch (IOException e) {
                 e.printStackTrace();
