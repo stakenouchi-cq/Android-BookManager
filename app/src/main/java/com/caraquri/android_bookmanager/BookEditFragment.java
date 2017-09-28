@@ -3,9 +3,13 @@ package com.caraquri.android_bookmanager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,26 +34,40 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class BookEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private static final int REQUEST_PICK_IMAGEFILE = 1;
     private static final int REQUEST_PICK_PERMISSION = 2;
+    private final static String ARGS_BOOKID = "args_bookId";
     private final static String ARGS_IMAGEPATH = "args_imagePath";
     private final static String ARGS_TITLE = "args_title";
     private final static String ARGS_PRICE = "args_price";
     private final static String ARGS_PURCHASEDATE = "args_purchaseDate";
 
-    private ImageView bookThumbnail;
     private EditText titleEditText;
     private EditText priceEditText;
     private EditText purchaseDateEditText;
+    private ImageView bookThumbnailImageView;
+    private Bitmap bookThumbnailBitmap;
 
-    public static BookEditFragment newInstance(String imagePath, String title, int price, String purchaseDate) {
+    public static BookEditFragment newInstance(int bookId, String imagePath, String title, int price, String purchaseDate) {
         BookEditFragment fragment = new BookEditFragment();
         Bundle args = new Bundle();
+        args.putInt(ARGS_BOOKID, bookId);
         args.putString(ARGS_IMAGEPATH, imagePath);
         args.putString(ARGS_TITLE, title);
         args.putInt(ARGS_PRICE, price);
@@ -75,7 +93,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         toolbar.setTitle(R.string.book_edit);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        bookThumbnail = (ImageView) view.findViewById(R.id.book_thumbnail);
+        bookThumbnailImageView = (ImageView) view.findViewById(R.id.book_thumbnail);
         titleEditText = (EditText) view.findViewById(R.id.title_edit_text);
         priceEditText = (EditText) view.findViewById(R.id.price_edit_text);
         purchaseDateEditText = (EditText) view.findViewById(R.id.purchase_date_edit_text);
@@ -90,7 +108,21 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         titleEditText.setText(title);
         priceEditText.setText(String.valueOf(price));
         purchaseDateEditText.setText(purchaseDate);
-        bookThumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(getContext(), imagePath));
+        Glide.with(this)
+                .load(imagePath)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        bookThumbnailBitmap = ((BitmapDrawable) resource).getBitmap();
+                        return false;
+                    }
+                })
+                .into(bookThumbnailImageView);
 
         Button addThumbnailButton = (Button) view.findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
@@ -149,8 +181,8 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
             try {
-                Bitmap bm = ImageUtil.getBitmapFromUri(getContext(), uri);
-                bookThumbnail.setImageBitmap(bm);
+                bookThumbnailBitmap = ImageUtil.getBitmapFromUri(getContext(), uri);
+                bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -185,12 +217,37 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                 getFragmentManager().popBackStack();
                 return true;
             case R.id.menu_save:
-                Log.d("Data of the book", "Title: " + titleEditText.getText() + " Price: "+ priceEditText.getText() + " PurchaseDate: " + purchaseDateEditText.getText());
                 // 全入力欄が空欄でないかつ金額が数字になっていれば保存
                 if (TextUtils.isEmpty(titleEditText.getText()) || TextUtils.isEmpty(priceEditText.getText()) || !TextUtils.isDigitsOnly(priceEditText.getText()) || TextUtils.isEmpty(purchaseDateEditText.getText())) {
                     return false;
                 }
-                Toast.makeText(getActivity(), "Save Succeeded!!", Toast.LENGTH_SHORT).show();
+                // 書籍データの保存に入る
+                String name = titleEditText.getText().toString();
+                int price = Integer.valueOf(priceEditText.getText().toString()).intValue();
+                String purchaseDate = purchaseDateEditText.getText().toString();
+                String image = ImageUtil.encodeToBase64(bookThumbnailBitmap);
+
+                // tokenを取得
+                SharedPreferences preferences = getContext().getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
+                final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
+                Log.d("Token", token);
+
+                Retrofit retrofit = Client.setRetrofit();
+                BookClient client = retrofit.create(BookClient.class);
+                Call<BookResponse> call = client.editBookData(token, getArguments().getInt(ARGS_BOOKID), new BookRequest(name, image, price, purchaseDate));
+                call.enqueue(new Callback<BookResponse>() {
+                    @Override
+                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                        Toast.makeText(getContext(), "Save Succeeded", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BookResponse> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(getContext(), "Save failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

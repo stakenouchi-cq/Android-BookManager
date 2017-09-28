@@ -3,7 +3,9 @@ package com.caraquri.android_bookmanager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -26,6 +28,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class BookAddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -52,7 +59,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
 
         bookThumbnailImageView = (ImageView) findViewById(R.id.book_thumbnail);
-        bookThumbnailImageView.setImageBitmap(ImageUtil.getBitmapFromAssets(getBaseContext(), "no_image.png"));
+        bookThumbnailBitmap = ImageUtil.getBitmapFromAssets(getBaseContext(), "no_image.png");
+        bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
 
         Button addThumbnailButton = (Button) findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
@@ -139,14 +147,38 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
                 finish();
                 return true;
             case R.id.menu_save:
-                Log.d("Data of the book", "Title: " + titleEditText.getText() + " Price: "+ priceEditText.getText() + " PurchaseDate: " + purchaseDateEditText.getText());
                 // 全入力欄が空欄でないかつ金額が数字になっていれば保存
                 if (TextUtils.isEmpty(titleEditText.getText()) || TextUtils.isEmpty(priceEditText.getText()) || !TextUtils.isDigitsOnly(priceEditText.getText()) || TextUtils.isEmpty(purchaseDateEditText.getText())) {
                     return false;
                 }
                 // 書籍データの保存に入る
+                String name = titleEditText.getText().toString();
+                int price = Integer.valueOf(priceEditText.getText().toString()).intValue();
+                String purchaseDate = purchaseDateEditText.getText().toString();
+                String image = ImageUtil.encodeToBase64(bookThumbnailBitmap);
 
-                Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
+                // tokenを取得
+                SharedPreferences preferences = this.getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
+                final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
+                Log.d("Token", token);
+
+                Retrofit retrofit = Client.setRetrofit();
+                BookClient client = retrofit.create(BookClient.class);
+                Call<BookResponse> call = client.addBookData(token, new BookRequest(name, image, price, purchaseDate));
+                call.enqueue(new Callback<BookResponse>() {
+                    @Override
+                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                        Toast.makeText(getBaseContext(), "Save Succeeded", Toast.LENGTH_SHORT).show();
+                        Log.d("ID of this book", response.body().getBookResult().toString());
+                    }
+
+                    @Override
+                    public void onFailure(Call<BookResponse> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(getBaseContext(), "Save failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

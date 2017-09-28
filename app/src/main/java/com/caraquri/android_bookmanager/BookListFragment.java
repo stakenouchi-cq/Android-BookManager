@@ -65,6 +65,7 @@ public class BookListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Book selectedBook = bookList.get(i);
+                int bookId = selectedBook.getBookId();
                 String imagePath = selectedBook.getImagePath();
                 String title = selectedBook.getTitle();
                 int price = selectedBook.getPrice();
@@ -73,7 +74,7 @@ public class BookListFragment extends Fragment {
                 // 画面呼び出し
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.container, BookEditFragment.newInstance(imagePath, title, price, purchaseDate));
+                transaction.replace(R.id.container, BookEditFragment.newInstance(bookId, imagePath, title, price, purchaseDate));
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -143,7 +144,6 @@ public class BookListFragment extends Fragment {
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(getContext(), "Loading book data has been failed", Toast.LENGTH_SHORT).show();
                 if (page >= 2) {
                     page -= 1; // 読み込みに失敗したため，足したページを1つ戻す
                 }
