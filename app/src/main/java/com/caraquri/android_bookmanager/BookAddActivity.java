@@ -38,9 +38,10 @@ import retrofit2.Retrofit;
 
 public class BookAddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private static final String LOG_TAG = "Book_Add";
+    private static final String LOG_TAG = BookAddActivity.class.getSimpleName();
     private static final int REQUEST_PICK_IMAGEFILE = 1;
     private static final int REQUEST_PICK_PERMISSION = 2;
+
     private EditText titleEditText;
     private EditText priceEditText;
     private EditText purchaseDateEditText;
@@ -174,7 +175,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
 
                     @Override
                     public void onFailure(Call<JSONObject> call, Throwable t) {
-                        t.printStackTrace();
+                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
                         Toast.makeText(getBaseContext(), "Save failed", Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -52,7 +52,7 @@ import retrofit2.Retrofit;
 
 public class BookEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    private static final String LOG_TAG = "Book_Edit";
+    private static final String LOG_TAG = BookEditFragment.class.getSimpleName();
     private static final int REQUEST_PICK_IMAGEFILE = 1;
     private static final int REQUEST_PICK_PERMISSION = 2;
     private static final String ARGS_BOOKID = "args_bookId";
@@ -240,7 +240,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
 
                     @Override
                     public void onFailure(Call<JSONObject> call, Throwable t) {
-                        t.printStackTrace();
+                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
                         Toast.makeText(getContext(), "Save failed", Toast.LENGTH_SHORT).show();
                     }
                 });

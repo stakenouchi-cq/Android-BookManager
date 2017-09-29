@@ -16,7 +16,7 @@ import java.io.InputStream;
 
 public class ImageUtil {
 
-    private static final String LOG_TAG = "Image_Utility";
+    private static final String LOG_TAG = ImageUtil.class.getSimpleName();
 
     // Bitmap画像をBase64にエンコード
     public static String encodeToBase64(Bitmap image) {

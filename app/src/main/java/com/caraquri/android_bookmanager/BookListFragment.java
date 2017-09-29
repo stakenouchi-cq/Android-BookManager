@@ -33,7 +33,9 @@ import retrofit2.Retrofit;
 
 public class BookListFragment extends Fragment {
 
+    private static final String LOG_TAG = BookListFragment.class.getSimpleName();
     private static final int LOAD_LIMIT = 3;
+
     private ListView listView;
     private BookAdapter adapter;
     private final List<Book> bookList = new ArrayList<>();
@@ -138,7 +140,7 @@ public class BookListFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
-                t.printStackTrace();
+                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
                 if (page >= 2) {
                     page -= 1; // 読み込みに失敗したため，足したページを1つ戻す
                 }

@@ -17,6 +17,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class AccountSettingActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = AccountSettingActivity.class.getSimpleName();
+
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText passwordConfirmEditText;
@@ -86,7 +89,7 @@ public class AccountSettingActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-                        t.printStackTrace();
+                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
                     }
                 });
                 return true;
