@@ -65,7 +65,6 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
     private EditText priceEditText;
     private EditText purchaseDateEditText;
     private ImageView bookThumbnailImageView;
-    private Bitmap bookThumbnailBitmap;
 
     public static BookEditFragment newInstance(int bookId, String imageUrl, String title, int price, String purchaseDate) {
         BookEditFragment fragment = new BookEditFragment();
@@ -122,7 +121,6 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        bookThumbnailBitmap = ((BitmapDrawable) resource).getBitmap();
                         return false;
                     }
                 })
@@ -181,8 +179,8 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
             try {
-                bookThumbnailBitmap = ImageUtil.getBitmapFromUri(getContext(), uri);
-                bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
+                Bitmap bitmap = ImageUtil.getBitmapFromUri(getContext(), uri);
+                bookThumbnailImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_URI, e);
             }
@@ -223,6 +221,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                 String name = titleEditText.getText().toString();
                 int price = Integer.valueOf(priceEditText.getText().toString()).intValue();
                 String purchaseDate = purchaseDateEditText.getText().toString();
+                Bitmap bookThumbnailBitmap = ((BitmapDrawable) bookThumbnailImageView.getDrawable()).getBitmap();
                 String image = ImageUtil.encodeToBase64(bookThumbnailBitmap);
 
                 // tokenを取得

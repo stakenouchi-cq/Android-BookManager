@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,7 +47,6 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
     private EditText priceEditText;
     private EditText purchaseDateEditText;
     private ImageView bookThumbnailImageView;
-    private Bitmap bookThumbnailBitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,8 +63,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
 
         bookThumbnailImageView = (ImageView) findViewById(R.id.book_thumbnail);
-        bookThumbnailBitmap = ImageUtil.getBitmapFromAssets(this, "no_image.png");
-        bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
+        bookThumbnailImageView.setImageBitmap(ImageUtil.getBitmapFromAssets(this, "no_image.png"));
 
         Button addThumbnailButton = (Button) findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +114,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
             try {
-                bookThumbnailBitmap = ImageUtil.getBitmapFromUri(this, uri);
-                bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
+                Bitmap bitmap = ImageUtil.getBitmapFromUri(this, uri);
+                bookThumbnailImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_URI, e);
             }
@@ -157,6 +156,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
                 String name = titleEditText.getText().toString();
                 int price = Integer.valueOf(priceEditText.getText().toString()).intValue();
                 String purchaseDate = purchaseDateEditText.getText().toString();
+                Bitmap bookThumbnailBitmap = ((BitmapDrawable) bookThumbnailImageView.getDrawable()).getBitmap();
                 String image = ImageUtil.encodeToBase64(bookThumbnailBitmap);
 
                 // tokenを取得
