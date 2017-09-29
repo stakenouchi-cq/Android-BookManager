@@ -11,4 +11,9 @@ public class Constants {
         public static final String EMAIL = "email";
     }
 
+    public static class LogMessages {
+        public static final String CONVERT_TO_BITMAP_FROM_URI = "Convert bitmap from uri";
+        public static final String CONVERT_TO_BITMAP_FROM_ASSETS = "Convert bitmap from assets";
+    }
+
 }

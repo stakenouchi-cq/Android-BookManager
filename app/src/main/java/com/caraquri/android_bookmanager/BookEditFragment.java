@@ -52,13 +52,14 @@ import retrofit2.Retrofit;
 
 public class BookEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    private static final String LOG_TAG = "Book_Edit";
     private static final int REQUEST_PICK_IMAGEFILE = 1;
     private static final int REQUEST_PICK_PERMISSION = 2;
-    private final static String ARGS_BOOKID = "args_bookId";
-    private final static String ARGS_IMAGEURL = "args_imageUrl";
-    private final static String ARGS_TITLE = "args_title";
-    private final static String ARGS_PRICE = "args_price";
-    private final static String ARGS_PURCHASEDATE = "args_purchaseDate";
+    private static final String ARGS_BOOKID = "args_bookId";
+    private static final String ARGS_IMAGEURL = "args_imageUrl";
+    private static final String ARGS_TITLE = "args_title";
+    private static final String ARGS_PRICE = "args_price";
+    private static final String ARGS_PURCHASEDATE = "args_purchaseDate";
 
     private EditText titleEditText;
     private EditText priceEditText;
@@ -153,10 +154,6 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
 
     }
 
-    private String getGalleryPath() {
-        return Environment.getExternalStorageState() + "/" + Environment.DIRECTORY_DCIM + "/";
-    }
-
     private void checkPermission() {
         if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // 許可されていない
@@ -186,7 +183,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                 bookThumbnailBitmap = ImageUtil.getBitmapFromUri(getContext(), uri);
                 bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_URI, e);
             }
         }
     }
@@ -195,13 +192,11 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_PICK_PERMISSION) {
             // requestPermissionsで設定した順番で結果が格納されています。
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 許可されたので処理を続行
-                return;
-            } else {
+            if(!(grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // 許可されていないので外部ストレージパーミッションの確認ダイアログを表示
                 Toast.makeText(getActivity(), "Not have perimission to storage.", Toast.LENGTH_SHORT).show();
             }
-            return;
+            return; // パーミッションが既にあれば大丈夫なので終わり
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

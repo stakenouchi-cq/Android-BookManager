@@ -16,6 +16,8 @@ import java.io.InputStream;
 
 public class ImageUtil {
 
+    private static final String LOG_TAG = "Image_Utility";
+
     // Bitmap画像をBase64にエンコード
     public static String encodeToBase64(Bitmap image) {
         Bitmap immagex = image;
@@ -49,7 +51,7 @@ public class ImageUtil {
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             return bitmap;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_ASSETS, e);
             return null;
         }
     }

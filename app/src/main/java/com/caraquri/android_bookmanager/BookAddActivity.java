@@ -38,6 +38,7 @@ import retrofit2.Retrofit;
 
 public class BookAddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private static final String LOG_TAG = "Book_Add";
     private static final int REQUEST_PICK_IMAGEFILE = 1;
     private static final int REQUEST_PICK_PERMISSION = 2;
     private EditText titleEditText;
@@ -61,7 +62,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
 
         bookThumbnailImageView = (ImageView) findViewById(R.id.book_thumbnail);
-        bookThumbnailBitmap = ImageUtil.getBitmapFromAssets(getBaseContext(), "no_image.png");
+        bookThumbnailBitmap = ImageUtil.getBitmapFromAssets(this, "no_image.png");
         bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
 
         Button addThumbnailButton = (Button) findViewById(R.id.button_add_thumbnail);
@@ -116,7 +117,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
                 bookThumbnailBitmap = ImageUtil.getBitmapFromUri(this, uri);
                 bookThumbnailImageView.setImageBitmap(bookThumbnailBitmap);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_URI, e);
             }
         }
     }
@@ -125,13 +126,11 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_PICK_PERMISSION) {
             // requestPermissionsで設定した順番で結果が格納されています。
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 許可されたので処理を続行
-                return;
-            } else {
+            if(!(grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // 許可されていないので外部ストレージパーミッションの確認ダイアログを表示
                 Toast.makeText(this, "Not have perimission to storage.", Toast.LENGTH_SHORT).show();
             }
-            return;
+            return; // パーミッションが既にあれば大丈夫なので終わり
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

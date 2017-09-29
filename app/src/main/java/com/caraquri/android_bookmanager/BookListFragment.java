@@ -87,7 +87,7 @@ public class BookListFragment extends Fragment {
                 Log.d("Page", String.valueOf(page));
                 Log.d("Length of list", String.valueOf(bookList.size()));
                 page += 1;
-                getBookDatas(page);
+                getBookData(page);
             }
         });
 
@@ -100,10 +100,10 @@ public class BookListFragment extends Fragment {
         bookList.clear();
         adapter.notifyDataSetChanged();
         page = 1;
-        getBookDatas(page);
+        getBookData(page);
     }
 
-    private void getBookDatas(int pageNum) {
+    private void getBookData(int pageNum) {
         // まずは，tokenを取ってくる
         SharedPreferences preferences = getContext().getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
         final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
