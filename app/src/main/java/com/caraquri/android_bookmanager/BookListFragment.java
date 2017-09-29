@@ -88,7 +88,6 @@ public class BookListFragment extends Fragment {
             public void onClick(View view) {
                 Log.d("Page", String.valueOf(page));
                 Log.d("Length of list", String.valueOf(bookList.size()));
-                page += 1;
                 getBookData(page);
             }
         });
@@ -98,6 +97,7 @@ public class BookListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         // 書籍一覧画面に入ったら，書籍データを格納した配列をクリアして1ページ目からのデータを取得
         bookList.clear();
         adapter.notifyDataSetChanged();
@@ -123,27 +123,20 @@ public class BookListFragment extends Fragment {
                 }
                 BookResponse bookResponse = response.body();
                 for (BookResult bookResult: bookResponse.getBookResult()) {
-                    Book book = new Book();
+                    // レスポンスのJSONより，書籍情報を取得
                     int bookId = bookResult.bookId;
                     String name = bookResult.name;
                     String imageUrl = bookResult.imageUrl;
                     int price = bookResult.price;
                     String purchaseDate = bookResult.purchaseDate.replace("-", "/"); // 年月日の区切りをスラッシュに変更
-                    book.setBookId(bookId);
-                    book.setImageUrl(imageUrl);
-                    book.setTitle(name);
-                    book.setPrice(price);
-                    book.setPurchaseDate(purchaseDate);
-                    bookList.add(book);
+                    bookList.add(new Book(bookId, imageUrl, name, price, purchaseDate)); // 書籍情報を格納するリストに追加
                 }
+                page += 1;
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
                 Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
-                if (page >= 2) {
-                    page -= 1; // 読み込みに失敗したため，足したページを1つ戻す
-                }
             }
         });
     }

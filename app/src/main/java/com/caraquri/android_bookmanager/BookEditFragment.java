@@ -116,6 +116,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        Log.e(LOG_TAG, Constants.LogMessages.GLIDE_LOAD, e);
                         return false;
                     }
 
@@ -240,7 +241,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
 
                     @Override
                     public void onFailure(Call<JSONObject> call, Throwable t) {
-                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
+                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
                         Toast.makeText(getContext(), "Save failed", Toast.LENGTH_SHORT).show();
                     }
                 });

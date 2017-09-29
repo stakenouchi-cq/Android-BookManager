@@ -15,6 +15,7 @@ public class Constants {
         public static final String CONVERT_TO_BITMAP_FROM_URI = "Convert bitmap from uri";
         public static final String CONVERT_TO_BITMAP_FROM_ASSETS = "Convert bitmap from assets";
         public static final String CALLBACK_RETROFIT = "Callback in Retrofit";
+        public static final String GLIDE_LOAD = "Load image by Glide";
     }
 
 }

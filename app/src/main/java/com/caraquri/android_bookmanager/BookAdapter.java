@@ -48,8 +48,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         purchase_date.setText(book.getPurchaseDate());
 
         // Glideで書籍のサムネイルをURLで取ってくる
-        Glide
-                .with(context)
+        Glide.with(context)
                 .load(book.getImageUrl())
                 .into(thumbnail);
 

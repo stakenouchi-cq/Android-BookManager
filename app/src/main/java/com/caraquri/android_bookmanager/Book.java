@@ -10,44 +10,33 @@ public class Book {
     private int price; // 価格
     private String purchaseDate; // 購入日
 
-    public int getBookId() {
-        return bookId;
+    public Book(int bookId, String imageUrl, String title, int price, String purchaseDate) {
+        this.bookId = bookId;
+        this.imageUrl = imageUrl;
+        this.title = title;
+        this.price = price;
+        this.purchaseDate = purchaseDate;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public int getBookId() {
+        return bookId;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
 
 }
