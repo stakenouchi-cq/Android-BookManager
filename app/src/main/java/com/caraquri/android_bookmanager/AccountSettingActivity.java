@@ -89,7 +89,7 @@ public class AccountSettingActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
+                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
                     }
                 });
                 return true;
