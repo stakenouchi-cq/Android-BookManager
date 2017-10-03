@@ -110,21 +110,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         titleEditText.setText(title);
         priceEditText.setText(String.valueOf(price));
         purchaseDateEditText.setText(purchaseDate);
-        Glide.with(this)
-                .load(imageUrl)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        Log.e(LOG_TAG, Constants.LogMessages.GLIDE_LOAD, e);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .into(bookThumbnailImageView);
+        Glide.with(this).load(imageUrl).into(bookThumbnailImageView);
 
         Button addThumbnailButton = (Button) view.findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
