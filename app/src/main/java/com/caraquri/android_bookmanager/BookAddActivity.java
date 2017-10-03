@@ -28,10 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -67,21 +63,12 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
         priceEditText = (EditText) findViewById(R.id.price_edit_text);
 
         bookThumbnailImageView = (ImageView) findViewById(R.id.book_thumbnail);
-        // 書籍のサムネイルの初期値を設定して表示
-        Glide.with(this)
-                .load(Uri.parse("file:///android_asset/no_image.png"))
-                .apply(ImageUtil.getRequestOptionsOfBookThumbnail())
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(bookThumbnailImageView);
+        bookThumbnailImageView.setImageBitmap(ImageUtil.getBitmapFromAssets(this, "no_image.png"));
 
         Button addThumbnailButton = (Button) findViewById(R.id.button_add_thumbnail);
         addThumbnailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!ImageUtil.isExternalStorageReadable()) {
-                    Toast.makeText(BookAddActivity.this, "Error: Not have permisson to storage!", Toast.LENGTH_SHORT).show();
-                    return; // ストレージに権限が無いので終了
-                }
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
@@ -126,12 +113,12 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
             checkPermission();
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
-            // Glideでギャラリーにある画像のURIを取得して表示
-            Glide.with(this)
-                    .load(Uri.parse(uri.toString()))
-                    .apply(ImageUtil.getRequestOptionsOfBookThumbnail())
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(bookThumbnailImageView);
+            try {
+                Bitmap bitmap = ImageUtil.getBitmapFromUri(this, uri);
+                bookThumbnailImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_URI, e);
+            }
         }
     }
 
@@ -188,7 +175,7 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
 
                     @Override
                     public void onFailure(Call<JSONObject> call, Throwable t) {
-                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
+                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
                         Toast.makeText(getBaseContext(), "Save failed", Toast.LENGTH_SHORT).show();
                     }
                 });

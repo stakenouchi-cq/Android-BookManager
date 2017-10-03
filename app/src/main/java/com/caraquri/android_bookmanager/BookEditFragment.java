@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONObject;
@@ -107,11 +106,14 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         priceEditText.setText(String.valueOf(price));
         purchaseDateEditText.setText(purchaseDate);
 
+        // Glideでの画像の読込時およびエラー発生時に表示する画像の指定
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.raw.now_loading)
+                .error(R.drawable.ic_load_error);
         // GlideでURL上にある画像を取得して表示
         Glide.with(getActivity())
-                .load(Uri.parse(imageUrl))
-                .apply(ImageUtil.getRequestOptionsOfBookThumbnail())
-                .transition(DrawableTransitionOptions.withCrossFade())
+                .load(imageUrl)
+                .apply(requestOptions)
                 .into(bookThumbnailImageView);
 
         Button addThumbnailButton = (Button) view.findViewById(R.id.button_add_thumbnail);
@@ -166,12 +168,12 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
             checkPermission();
             Uri uri = data.getData();
             Log.i("", "Uri: " + uri.toString());
-            // Glideでギャラリーにある画像のURIを取得して表示
-            Glide.with(this)
-                    .load(Uri.parse(uri.toString()))
-                    .apply(ImageUtil.getRequestOptionsOfBookThumbnail())
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(bookThumbnailImageView);
+            try {
+                Bitmap bitmap = ImageUtil.getBitmapFromUri(getContext(), uri);
+                bookThumbnailImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_URI, e);
+            }
         }
     }
 

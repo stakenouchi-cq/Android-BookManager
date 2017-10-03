@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +136,7 @@ public class BookListFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
-                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
+                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
             }
         });
     }
