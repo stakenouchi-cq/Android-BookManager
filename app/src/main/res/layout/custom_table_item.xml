@@ -7,12 +7,11 @@
 
     <ImageView
         android:id="@+id/book_thumbnail"
-        android:layout_width="@dimen/cell_thumbnail_width"
-        android:layout_height="@dimen/cell_thumbnail_height"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:paddingRight="@dimen/margin_between_ThumbnailAndBooktitle"
-        android:scaleType="fitXY" />
+        android:paddingRight="@dimen/margin_between_ThumbnailAndBooktitle"/>
 
     <TextView
         android:id="@+id/book_title"

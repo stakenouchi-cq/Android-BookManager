@@ -1,22 +1,15 @@
 package com.caraquri.android_bookmanager;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.util.Base64;
-import android.util.Log;
+
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class ImageUtil {
-
-    private static final String LOG_TAG = ImageUtil.class.getSimpleName();
 
     // Bitmap画像をBase64にエンコード
     public static String encodeToBase64(Bitmap image) {
@@ -26,12 +19,6 @@ public class ImageUtil {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         String imageEncoded = Base64.encodeToString(bytes, Base64.NO_WRAP);
         return imageEncoded;
-    }
-
-    // Base64をBitmap画像にデコード
-    public static Bitmap decodeToBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
     // ストレージが読み出し可能かどうかをチェック
@@ -44,24 +31,16 @@ public class ImageUtil {
         return false;
     }
 
-    // Assetsにある画像をbitmapへ変換
-    public static Bitmap getBitmapFromAssets(Context context, String imageUrl) {
-        try {
-            InputStream inputStream = context.getAssets().open(imageUrl);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
-        } catch (IOException e) {
-            Log.e(LOG_TAG, Constants.LogMessages.CONVERT_TO_BITMAP_FROM_ASSETS, e);
-            return null;
-        }
-    }
+    // 書籍のサムネイルで規格が合うように設定(読込中や読込失敗時に表示する画像の表示もここで行う)
+    public static RequestOptions getRequestOptionsOfBookThumbnail() {
+        RequestOptions requestOptions = new RequestOptions()
+                .override(175, 248)
+                .centerCrop()
+                .placeholder(R.raw.now_loading)
+                .error(R.drawable.ic_load_error)
+                .priority(Priority.HIGH);
 
-    public static Bitmap getBitmapFromUri(Context context, Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
+        return requestOptions;
     }
 
 }
