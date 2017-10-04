@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -82,10 +83,16 @@ public class BookListFragment extends Fragment {
             }
         });
 
-        Button loadMoreButton = (Button) getActivity().findViewById(R.id.load_button);
+        final Button loadMoreButton = (Button) getActivity().findViewById(R.id.load_button);
         loadMoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                loadMoreButton.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        loadMoreButton.setEnabled(true);
+                    }
+                }, 1000L); // 読み込みボタンの1.0秒未満での間隔で連打禁止．(連打するとダブリで読み込むため)
                 Log.d("Page", String.valueOf(page));
                 Log.d("Length of list", String.valueOf(bookList.size()));
                 getBookData(page);
@@ -136,7 +143,8 @@ public class BookListFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
-                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
+                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
+                Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
