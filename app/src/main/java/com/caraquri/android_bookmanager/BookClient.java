@@ -37,7 +37,7 @@ public interface BookClient {
     @PUT("/books/{id}")
     Call<JSONObject> editBookData(
             @Header("Authorization") String token,
-            @Path("id") int userId,
+            @Path("id") int bookId,
             @Body BookRequest bookRequest
     );
 
