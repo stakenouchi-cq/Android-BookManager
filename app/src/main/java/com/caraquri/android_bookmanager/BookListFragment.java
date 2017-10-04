@@ -118,7 +118,7 @@ public class BookListFragment extends Fragment {
         final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
         Log.d("Token", token);
         // 指定のページ番号における書籍リストを取得
-        Retrofit retrofit = Client.setRetrofit();
+        Retrofit retrofit = Client.getRetrofit();
         BookClient client = retrofit.create(BookClient.class);
         Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, pageNum);
         call.enqueue(new Callback<BookResponse>() {

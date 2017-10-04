@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        Retrofit retrofit = Client.setRetrofit();
+        Retrofit retrofit = Client.getRetrofit();
         UserClient client = retrofit.create(UserClient.class);
         Call<UserResponse> call = client.userLogin(new User(email, password));
         call.enqueue(new Callback<UserResponse>() {

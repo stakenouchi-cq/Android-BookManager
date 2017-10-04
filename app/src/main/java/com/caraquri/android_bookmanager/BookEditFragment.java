@@ -227,7 +227,7 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
         final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
         Log.d("Token", token);
 
-        Retrofit retrofit = Client.setRetrofit();
+        Retrofit retrofit = Client.getRetrofit();
         BookClient client = retrofit.create(BookClient.class);
         Call<JSONObject> call = client.editBookData(token, getArguments().getInt(ARGS_BOOKID), new BookRequest(name, image, price, purchaseDate));
         call.enqueue(new Callback<JSONObject>() {

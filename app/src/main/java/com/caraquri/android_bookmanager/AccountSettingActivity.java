@@ -74,7 +74,7 @@ public class AccountSettingActivity extends AppCompatActivity {
             return;
         }
 
-        Retrofit retrofit = Client.setRetrofit();
+        Retrofit retrofit = Client.getRetrofit();
         UserClient client = retrofit.create(UserClient.class);
         Call<UserResponse> call = client.userSignUp(new User(email, password));
         call.enqueue(new Callback<UserResponse>() {
