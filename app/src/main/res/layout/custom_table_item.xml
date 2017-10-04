@@ -20,8 +20,6 @@
         android:layout_toRightOf="@id/book_thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lines="1"
-        android:ellipsize="end"
         android:layout_alignParentTop="true" />
 
     <TextView

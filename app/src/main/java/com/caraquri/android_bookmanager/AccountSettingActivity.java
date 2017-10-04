@@ -1,8 +1,14 @@
 package com.caraquri.android_bookmanager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.AppLaunchChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,15 +17,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 public class AccountSettingActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = AccountSettingActivity.class.getSimpleName();
-
+    private static final int REQUEST_PERMISSION = 1000;
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText passwordConfirmEditText;
@@ -28,6 +28,19 @@ public class AccountSettingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setting);
+
+        // 初回起動時はアカウント新規登録画面，そうでない時はログイン画面へ
+        if (AppLaunchChecker.hasStartedFromLauncher(this)) {
+            Log.d("AppLaunchChecker", "It's not first launch");
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+        } else {
+            Log.d("AppLaunchChecker", "It's first launch");
+            checkStoragePermission(); // ストレージ読み込み権限チェック(初回起動用)
+        }
+        AppLaunchChecker.onActivityCreate(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.account_setting_toolbar);
         toolbar.setTitle(R.string.account_setting);
@@ -50,62 +63,52 @@ public class AccountSettingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish(); // アカウント設定画面は終了して戻る
+                finish();
                 return true;
             case R.id.menu_save:
-                startSignUp();
+                Toast.makeText(this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 戻るキー押下時に前の状態に戻ってしまうので過去のActivityをクリア
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void startSignUp() {
-        Log.d("State", "It's going to sign up");
-        String email = emailEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        String passwordConfirm = passwordConfirmEditText.getText().toString();
-        if (!password.equals(passwordConfirm)) {
-            Toast.makeText(this, "Two passwords must be same", Toast.LENGTH_SHORT).show();
+    private void checkStoragePermission() {
+        if (Build.VERSION.SDK_INT <= 22) {
             return;
         }
-        if (password.length() < 6 || passwordConfirm.length() < 6) {
-            Toast.makeText(this, "Password's length must be 6 or more", Toast.LENGTH_SHORT).show();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return; // API 23以降でも許可がある場所は大丈夫
+        }
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
+        } else {
+            Toast toast = Toast.makeText(this, "We can't execute this application", Toast.LENGTH_SHORT);
+            toast.show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,}, REQUEST_PERMISSION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_PERMISSION) {
             return;
         }
 
-        Retrofit retrofit = Client.getRetrofit();
-        UserClient client = retrofit.create(UserClient.class);
-        Call<UserResponse> call = client.userSignUp(new User(email, password));
-        call.enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Log.d("onResponse", response.toString());
-                if (!response.isSuccessful()) {
-                    Toast.makeText(AccountSettingActivity.this, "Signup Failed (response error)", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(AccountSettingActivity.this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
-                UserResponse userResponse = response.body();
-                int userId = userResponse.getUserId();
-                String email = userResponse.getEmail();
-                String token = userResponse.getToken();
-                Log.d("User ID", String.valueOf(userId));
-                Log.d("email", email);
-                Log.d("token", token);
-                PreferenceUtil.setPreferences(AccountSettingActivity.this, userId, email, token);
-
-                Intent intent = new Intent(AccountSettingActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 戻るキー押下時に前の状態に戻ってしまうので過去のActivityをクリア
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
-                Toast.makeText(AccountSettingActivity.this, "Signup Failed (request error)", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            return; // 使用許可を得たので続行
+        } else {
+            // それでも拒否された時の対応
+            Toast toast = Toast.makeText(this, "You will not be able to open storage", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
     }
 
 }
