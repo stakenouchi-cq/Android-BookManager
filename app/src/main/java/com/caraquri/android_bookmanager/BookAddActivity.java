@@ -181,6 +181,8 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
                     Toast.makeText(BookAddActivity.this, "Save failed (response error)", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                BookResult result = response.body().getBookResult();
+                Log.d("result", "id:" + result.bookId + " name:" + result.name + " image:" + result.imageUrl + " price:" + result.price + " purchase_date:" + result.purchaseDate);
                 Toast.makeText(BookAddActivity.this, "Save Succeeded", Toast.LENGTH_SHORT).show();
             }
             @Override

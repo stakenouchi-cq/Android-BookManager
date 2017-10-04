@@ -236,6 +236,8 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
                     Toast.makeText(getActivity(), "Save failed (response error)", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                BookResult result = response.body().getBookResult();
+                Log.d("result", "id:" + result.bookId + " name:" + result.name + " image:" + result.imageUrl + " price:" + result.price + " purchase_date:" + result.purchaseDate);
                 Toast.makeText(getContext(), "Save Succeeded", Toast.LENGTH_SHORT).show();
             }
             @Override
