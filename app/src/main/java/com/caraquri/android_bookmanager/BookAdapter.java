@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 
@@ -44,7 +47,16 @@ public class BookAdapter extends ArrayAdapter<Book> {
         title.setText(book.getTitle());
         price.setText(context.getString(R.string.price_notation, book.getPrice()));
         purchase_date.setText(book.getPurchaseDate());
-        thumbnail.setImageBitmap(ImageUtil.getBitmapFromAssets(context, book.getImagePath()));
+
+        // Glideでの画像の読込時およびエラー発生時に表示する画像の指定
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.raw.now_loading)
+                .error(R.drawable.ic_load_error);
+        // GlideでURL上にある画像を取得して表示
+        Glide.with(context)
+                .load(book.getImageUrl())
+                .apply(requestOptions)
+                .into(thumbnail);
 
         return view;
     }
