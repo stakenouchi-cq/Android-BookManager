@@ -41,6 +41,7 @@ public class BookListFragment extends Fragment {
     private BookAdapter adapter;
     private final List<Book> bookList = new ArrayList<>();
     private int page;
+    private Button loadMoreButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,16 +84,19 @@ public class BookListFragment extends Fragment {
             }
         });
 
-        final Button loadMoreButton = (Button) getActivity().findViewById(R.id.load_button);
+        loadMoreButton = (Button) getActivity().findViewById(R.id.load_button);
         loadMoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 loadMoreButton.setEnabled(false);
+                // 読み込みボタンの1.0秒未満での間隔で連打禁止．(連打すると被って読み込むため)
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         loadMoreButton.setEnabled(true);
                     }
-                }, 1000L); // 読み込みボタンの1.0秒未満での間隔で連打禁止．(連打するとダブリで読み込むため)
+                }, 1000L);
+
+                // 以下、ボタン押下時の操作
                 Log.d("Page", String.valueOf(page));
                 Log.d("Length of list", String.valueOf(bookList.size()));
                 getBookData(page);
@@ -106,10 +110,11 @@ public class BookListFragment extends Fragment {
         super.onResume();
 
         // 書籍一覧画面に入ったら，書籍データを格納した配列をクリアして1ページ目からのデータを取得
+        // getBookDataをonResume()内で使わない理由は、この画面に入ったすぐにボタンを押すと1ページ目の内容が被って表示されるため
         bookList.clear();
         adapter.notifyDataSetChanged();
         page = 1;
-        getBookData(page);
+        loadMoreButton.performClick(); // コードからボタン押下の操作を行う
     }
 
     private void getBookData(int pageNum) {
