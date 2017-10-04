@@ -125,17 +125,17 @@ public class BookListFragment extends Fragment {
         // 指定のページ番号における書籍リストを取得
         Retrofit retrofit = Client.getRetrofit();
         BookClient client = retrofit.create(BookClient.class);
-        Call<BookResponse> call = client.getBookList(token, LOAD_LIMIT, pageNum);
-        call.enqueue(new Callback<BookResponse>() {
+        Call<LoadBookResponse> call = client.getBookList(token, LOAD_LIMIT, pageNum);
+        call.enqueue(new Callback<LoadBookResponse>() {
             @Override
-            public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+            public void onResponse(Call<LoadBookResponse> call, Response<LoadBookResponse> response) {
                 Log.d("onResponse", response.toString());
                 if (!response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Load failed (response error)", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                BookResponse bookResponse = response.body();
-                for (BookResult bookResult: bookResponse.getBookResult()) {
+
+                for (BookResult bookResult: response.body().getBookResults()) {
                     // レスポンスのJSONより，書籍情報を取得
                     int bookId = bookResult.bookId;
                     String name = bookResult.name;
@@ -148,7 +148,7 @@ public class BookListFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
             @Override
-            public void onFailure(Call<BookResponse> call, Throwable t) {
+            public void onFailure(Call<LoadBookResponse> call, Throwable t) {
                 Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
                 Toast.makeText(getActivity(), "Load failed (request error)", Toast.LENGTH_SHORT).show();
             }

@@ -20,7 +20,7 @@ public interface BookClient {
 
     @Headers("Content-Type: application/json")
     @GET("/books?")
-    Call<BookResponse> getBookList(
+    Call<LoadBookResponse> getBookList(
             @Header("Authorization") String token,
             @Query("limit") int limit,
             @Query("page") int page
@@ -28,14 +28,14 @@ public interface BookClient {
 
     @Headers("Content-Type: application/json")
     @POST("/books")
-    Call<JSONObject> addBookData(
+    Call<AddBookResponse> addBookData(
             @Header("Authorization") String token,
             @Body BookRequest bookRequest
     );
 
     @Headers("Content-Type: application/json")
     @PUT("/books/{id}")
-    Call<JSONObject> editBookData(
+    Call<EditBookResponse> editBookData(
             @Header("Authorization") String token,
             @Path("id") int bookId,
             @Body BookRequest bookRequest

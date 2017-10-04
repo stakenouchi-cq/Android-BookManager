@@ -28,8 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -174,19 +172,19 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
 
         Retrofit retrofit = Client.getRetrofit();
         BookClient client = retrofit.create(BookClient.class);
-        Call<JSONObject> call = client.addBookData(token, new BookRequest(name, image, price, purchaseDate));
-        call.enqueue(new Callback<JSONObject>() {
+        Call<AddBookResponse> call = client.addBookData(token, new BookRequest(name, image, price, purchaseDate));
+        call.enqueue(new Callback<AddBookResponse>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<AddBookResponse> call, Response<AddBookResponse> response) {
+                Log.d("onResponse", response.toString());
                 if (!response.isSuccessful()) {
                     Toast.makeText(BookAddActivity.this, "Save failed (response error)", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Toast.makeText(BookAddActivity.this, "Save Succeeded", Toast.LENGTH_SHORT).show();
             }
-
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<AddBookResponse> call, Throwable t) {
                 Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
                 Toast.makeText(BookAddActivity.this, "Save failed (request error)", Toast.LENGTH_SHORT).show();
             }

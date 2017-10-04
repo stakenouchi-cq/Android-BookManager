@@ -35,8 +35,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -229,21 +227,21 @@ public class BookEditFragment extends Fragment implements DatePickerDialog.OnDat
 
         Retrofit retrofit = Client.getRetrofit();
         BookClient client = retrofit.create(BookClient.class);
-        Call<JSONObject> call = client.editBookData(token, getArguments().getInt(ARGS_BOOKID), new BookRequest(name, image, price, purchaseDate));
-        call.enqueue(new Callback<JSONObject>() {
+        Call<EditBookResponse> call = client.editBookData(token, getArguments().getInt(ARGS_BOOKID), new BookRequest(name, image, price, purchaseDate));
+        call.enqueue(new Callback<EditBookResponse>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<EditBookResponse> call, Response<EditBookResponse> response) {
+                Log.d("onResponse", response.toString());
                 if (!response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Save failed (response error)", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Toast.makeText(getContext(), "Save Succeeded", Toast.LENGTH_SHORT).show();
             }
-
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<EditBookResponse> call, Throwable t) {
                 Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
-                Toast.makeText(getContext(), "Save failed (request error)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Save failed (request error)", Toast.LENGTH_SHORT).show();
             }
         });
     }
