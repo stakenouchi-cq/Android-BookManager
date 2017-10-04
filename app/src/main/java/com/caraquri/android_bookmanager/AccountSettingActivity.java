@@ -53,49 +53,59 @@ public class AccountSettingActivity extends AppCompatActivity {
                 finish(); // アカウント設定画面は終了して戻る
                 return true;
             case R.id.menu_save:
-                Log.d("State", "It's going to sign up");
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String passwordConfirm = passwordConfirmEditText.getText().toString();
-                if (!password.equals(passwordConfirm)) {
-                    Toast.makeText(this, "Two passwords must be same", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-
-                Retrofit retrofit = Client.setRetrofit();
-                UserClient client = retrofit.create(UserClient.class);
-                Call<UserResponse> call = client.userSignUp(new User(email, password));
-                call.enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.d("onResponse", response.toString());
-                        if (!response.isSuccessful()) {
-                            return;
-                        }
-                        Toast.makeText(AccountSettingActivity.this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
-                        UserResponse userResponse = response.body();
-                        int userId = userResponse.getUserId();
-                        String email = userResponse.getEmail();
-                        String token = userResponse.getToken();
-                        Log.d("User ID", String.valueOf(userId));
-                        Log.d("email", email);
-                        Log.d("token", token);
-                        PreferenceUtil.setPreferences(AccountSettingActivity.this, userId, email, token);
-
-                        Intent intent = new Intent(AccountSettingActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 戻るキー押下時に前の状態に戻ってしまうので過去のActivityをクリア
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
-                    }
-                });
+                startSignUp();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startSignUp() {
+        Log.d("State", "It's going to sign up");
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String passwordConfirm = passwordConfirmEditText.getText().toString();
+        if (!password.equals(passwordConfirm)) {
+            Toast.makeText(this, "Two passwords must be same", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (password.length() < 6 || passwordConfirm.length() < 6) {
+            Toast.makeText(this, "Password's length must be 6 or more", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Retrofit retrofit = Client.setRetrofit();
+        UserClient client = retrofit.create(UserClient.class);
+        Call<UserResponse> call = client.userSignUp(new User(email, password));
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Log.d("onResponse", response.toString());
+                if (!response.isSuccessful()) {
+                    Toast.makeText(AccountSettingActivity.this, "Signup Failed (response error)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(AccountSettingActivity.this, "Save Succeeded!!", Toast.LENGTH_SHORT).show();
+                UserResponse userResponse = response.body();
+                int userId = userResponse.getUserId();
+                String email = userResponse.getEmail();
+                String token = userResponse.getToken();
+                Log.d("User ID", String.valueOf(userId));
+                Log.d("email", email);
+                Log.d("token", token);
+                PreferenceUtil.setPreferences(AccountSettingActivity.this, userId, email, token);
+
+                Intent intent = new Intent(AccountSettingActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 戻るキー押下時に前の状態に戻ってしまうので過去のActivityをクリア
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
+                Toast.makeText(AccountSettingActivity.this, "Signup Failed (request error)", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

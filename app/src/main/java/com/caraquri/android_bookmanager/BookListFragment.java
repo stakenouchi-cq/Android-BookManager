@@ -126,6 +126,7 @@ public class BookListFragment extends Fragment {
             public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
                 Log.d("onResponse", response.toString());
                 if (!response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Load failed (response error)", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 BookResponse bookResponse = response.body();
@@ -144,7 +145,7 @@ public class BookListFragment extends Fragment {
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) {
                 Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
-                Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Load failed (request error)", Toast.LENGTH_SHORT).show();
             }
         });
     }

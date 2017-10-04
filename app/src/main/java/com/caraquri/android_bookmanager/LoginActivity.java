@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,41 +53,47 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-
-                Retrofit retrofit = Client.setRetrofit();
-                UserClient client = retrofit.create(UserClient.class);
-                Call<UserResponse> call = client.userLogin(new User(email, password));
-                call.enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.d("onResponse", response.toString());
-                        if (!response.isSuccessful()) {
-                            return;
-                        }
-                        UserResponse userResponse = response.body();
-                        int userId = userResponse.getUserId();
-                        String email = userResponse.getEmail();
-                        String token = userResponse.getToken();
-                        Log.d("User ID", String.valueOf(userId));
-                        Log.d("email", email);
-                        Log.d("token", token);
-                        PreferenceUtil.setPreferences(LoginActivity.this, userId, email, token);
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ログインしたら，この画面にはもう戻らない
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
-                    }
-                });
+                startLogin();
             }
         });
 
+    }
+
+    private void startLogin() {
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        Retrofit retrofit = Client.setRetrofit();
+        UserClient client = retrofit.create(UserClient.class);
+        Call<UserResponse> call = client.userLogin(new User(email, password));
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Log.d("onResponse", response.toString());
+                if (!response.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this, "Login Failed (response error)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                UserResponse userResponse = response.body();
+                int userId = userResponse.getUserId();
+                String email = userResponse.getEmail();
+                String token = userResponse.getToken();
+                Log.d("User ID", String.valueOf(userId));
+                Log.d("email", email);
+                Log.d("token", token);
+                PreferenceUtil.setPreferences(LoginActivity.this, userId, email, token);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ログインしたら，この画面にはもう戻らない
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
+                Toast.makeText(LoginActivity.this, "Login Failed (request error)", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

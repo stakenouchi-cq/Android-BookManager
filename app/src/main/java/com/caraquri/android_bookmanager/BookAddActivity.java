@@ -148,42 +148,49 @@ public class BookAddActivity extends AppCompatActivity implements DatePickerDial
                 finish();
                 return true;
             case R.id.menu_save:
-                // 全入力欄が空欄でないかつ金額が数字になっていれば保存
-                if (TextUtils.isEmpty(titleEditText.getText()) || TextUtils.isEmpty(priceEditText.getText()) || !TextUtils.isDigitsOnly(priceEditText.getText()) || TextUtils.isEmpty(purchaseDateEditText.getText())) {
-                    return false;
-                }
-                // 書籍データの保存に入る
-                String name = titleEditText.getText().toString();
-                int price = Integer.valueOf(priceEditText.getText().toString()).intValue();
-                String purchaseDate = purchaseDateEditText.getText().toString();
-                Bitmap bookThumbnailBitmap = ((BitmapDrawable) bookThumbnailImageView.getDrawable()).getBitmap();
-                String image = ImageUtil.encodeToBase64(bookThumbnailBitmap);
-
-                // tokenを取得
-                SharedPreferences preferences = this.getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
-                final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
-                Log.d("Token", token);
-
-                Retrofit retrofit = Client.setRetrofit();
-                BookClient client = retrofit.create(BookClient.class);
-                Call<JSONObject> call = client.addBookData(token, new BookRequest(name, image, price, purchaseDate));
-                call.enqueue(new Callback<JSONObject>() {
-                    @Override
-                    public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                        Toast.makeText(getBaseContext(), "Save Succeeded", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<JSONObject> call, Throwable t) {
-                        Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);;
-                        Toast.makeText(getBaseContext(), "Save failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                startAddBook();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startAddBook() {
+        // 全入力欄が空欄でないかつ金額が数字になっていれば保存
+        if (TextUtils.isEmpty(titleEditText.getText()) || TextUtils.isEmpty(priceEditText.getText()) || !TextUtils.isDigitsOnly(priceEditText.getText()) || TextUtils.isEmpty(purchaseDateEditText.getText())) {
+            return;
+        }
+        // 書籍データの保存に入る
+        String name = titleEditText.getText().toString();
+        int price = Integer.valueOf(priceEditText.getText().toString()).intValue();
+        String purchaseDate = purchaseDateEditText.getText().toString();
+        Bitmap bookThumbnailBitmap = ((BitmapDrawable) bookThumbnailImageView.getDrawable()).getBitmap();
+        String image = ImageUtil.encodeToBase64(bookThumbnailBitmap);
+
+        // tokenを取得
+        SharedPreferences preferences = this.getSharedPreferences(Constants.PreferenceKeys.DATA_KEY, Context.MODE_PRIVATE);
+        final String token = preferences.getString(Constants.PreferenceKeys.TOKEN, "");
+        Log.d("Token", token);
+
+        Retrofit retrofit = Client.setRetrofit();
+        BookClient client = retrofit.create(BookClient.class);
+        Call<JSONObject> call = client.addBookData(token, new BookRequest(name, image, price, purchaseDate));
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(BookAddActivity.this, "Save failed (response error)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(BookAddActivity.this, "Save Succeeded", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Log.e(LOG_TAG, Constants.LogMessages.CALLBACK_RETROFIT, t);
+                Toast.makeText(BookAddActivity.this, "Save failed (request error)", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
